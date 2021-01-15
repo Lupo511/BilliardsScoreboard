@@ -139,6 +139,7 @@ div.scores {
 div.score_holder {
     display: block;
     height: 50%;
+    width: 100%;
 }
 
 div.score_holder.active {
@@ -159,6 +160,7 @@ div.score_holder span.score {
     div.score_holder {
         display: inline-block;
         height: 100%;
+        width: 40vh;
     }
 }
 
