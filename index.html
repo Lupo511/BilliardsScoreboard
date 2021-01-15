@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Billiards Scoreboard</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style/fonts.css">
+        <link rel="stylesheet" href="style/style.css">
+        <script type="application/javascript" src="script/appframework.js"></script>
+        <script type="application/javascript" src="script/scoreboard.js"></script>
+    </head>
+    <body>
+        <div id="screenResources" hidden>
+            <div id="main" class="app_screen">
+                <div class="title">
+                    <h1>Billiard Scoreboard</h1>
+                </div>
+                <div class="content center">
+                    <button onclick="app.currentScreen.newMatchClicked();">New match</button>
+                </div>
+            </div>
+            <div id="new_match" class="app_screen">
+                <div class="title">
+                    <h2>New match</h2>
+                </div>
+                <div class="content center">
+                    <div class="container">
+                        <form id="playersForm" onsubmit="return app.currentScreen.formSubmit();">
+                            <span id="errorLabel" class="error"></span><br>
+                            <div class="input_container">
+                                <span class="input">
+                                    <label>Player 1 <input type="text" id="player1" name="player1" title="Alphanumeric characters or space." pattern="[\w\s]+" required></label>
+                                </span>
+                                <span class="input">
+                                    <label>Player 2 <input type="text" id="player2" name="player2" title="Alphanumeric characters or space." pattern="[\w\s]+" required></label>
+                                </span>
+                            </div>
+                            <br>
+                            <input class="right" type="submit" value="Start">
+                        </form>
+                        <button class="cancel left" onclick="app.currentScreen.backClicked();">Back</button>
+                    </div>
+                </div>
+            </div>
+            <div id="match" class="app_screen">
+                <div class="scoreboard">
+                    <div class="top_buttons">
+                        <button>Exit</button><button>Edit</button>
+                    </div>
+                    <div class="scores">
+                        <div id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(0);">
+                            <span id="player1Name" class="player_name">
+                                Player 1
+                            </span>
+                            <span id="player1Score" class="score">
+                                60
+                            </span>
+                        </div><div id="player2ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(1);">
+                            <span id="player2Name" class="player_name">
+                                Player 1
+                            </span>
+                            <span id="player2Score" class="score">
+                                60
+                            </span>
+                        </div>
+                    </div>
+                    <div id="buttons" class="buttons">
+                        <div class="calculator">
+                            <span id="inputText" class="input">10</span>
+                            <span class="row">
+                                <button onclick="app.currentScreen.numberClicked(1);">1</button><button onclick="app.currentScreen.numberClicked(2);">2</button><button onclick="app.currentScreen.numberClicked(3);">3</button>
+                            </span>
+                            <span class="row">
+                                <button onclick="app.currentScreen.numberClicked(4);">4</button><button onclick="app.currentScreen.numberClicked(5);">5</button><button onclick="app.currentScreen.numberClicked(6);">6</button>
+                            </span>
+                            <span class="row">
+                                <button onclick="app.currentScreen.numberClicked(7);">7</button><button onclick="app.currentScreen.numberClicked(8);">8</button><button onclick="app.currentScreen.numberClicked(9);">9</button>
+                            </span>
+                            <span class="row">
+                                <button onclick="app.currentScreen.signClicked();">-</button><button onclick="app.currentScreen.numberClicked(0);">0</button><button onclick="app.currentScreen.sendClicked();">V</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

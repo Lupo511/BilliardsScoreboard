@@ -1,0 +1,200 @@
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-color: #002080;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 100;
+}
+
+div.app_screen {
+    width: 100%;
+    height: 100%;
+}
+
+div.title {
+    position: relative;
+    width: 100%;
+    height: 30%;
+    text-align: center;
+}
+
+div.content {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 70%;
+    padding-top: 50px;
+    overflow: hidden;
+}
+
+.center {
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-size: 3em;
+}
+
+h2 {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-size: 2em;
+}
+
+div.title h1, div.title h2 {
+    position: absolute;
+    left: 0;
+    top: auto;
+    right: 0;
+    bottom: 10%;
+}
+
+div.container {
+    display: inline-block;
+    max-width: 90%;
+}
+
+span.error {
+    color: #c00000;
+}
+
+div.input_container {
+    display: inline-block;
+    margin-right: -50px;
+}
+
+div.input_container span.input {
+    display: inline-block;
+    margin-right: 50px;
+}
+
+input[type=text] {
+    margin: 5px 0 5px 5px;
+    border: 0;
+    padding: 5px;
+    height: 1.2em;
+    background-color: #ffffff;
+    color: #000000;
+    font: inherit;
+}
+
+button, input[type=submit] {
+    border: 0;
+    margin: 0 10px 10px 0;
+    background-color: #001040;
+    color: #ffffff;
+    font: inherit;
+    padding: 10px;
+}
+
+button.cancel {
+    background-color: #c00000;
+}
+
+input[type=submit].right {
+    float: right;
+    margin-right: 0;
+}
+
+button.left {
+    float: left;
+    margin-left: 0;
+}
+
+div.scoreboard {
+    width: 100%;
+    height: 100%;
+}
+
+div.top_buttons button {
+    margin: 5px;
+}
+
+div.scores {
+    height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+}
+
+div.score_holder {
+    display: block;
+    height: 50%;
+}
+
+div.score_holder.active {
+    background-color: #3054bf;
+}
+
+div.score_holder span.player_name {
+    display: block;
+    height: 25%;
+}
+
+div.score_holder span.score {
+    display: block;
+    height: 75%;
+}
+
+@media (min-width: 80vh) {
+    div.score_holder {
+        display: inline-block;
+        height: 100%;
+    }
+}
+
+div.buttons {
+    visibility: hidden;
+    height: 50vh;
+    text-align: center;
+}
+
+div.calculator {
+    display: inline-block;
+}
+
+div.calculator span.input {
+    display: block;
+    width: 100%;
+    height: 9vh;
+    padding: 0 0 1vh;
+    text-align: right;
+    line-height: 9vh;
+    font-size: 5vh;
+}
+
+div.calculator span.row {
+    display: block;
+    padding: 0 0 1vh;
+}
+
+div.calculator span.row button {
+    height: 9vh;
+    width: 9vh;
+    margin: 0 1vh 0 0;
+    padding: 0;
+    font-size: 5vh;
+}
+
+div.calculator span.row button:last-child {
+    margin-right: 0;
+}
