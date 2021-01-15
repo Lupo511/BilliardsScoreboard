@@ -84,6 +84,8 @@ function MatchScreen(match) {
 
     this.match = match;
     this.activePlayer = -1;
+    this.newScoreSign = 1;
+    this.newScore = 0;
 }
 
 MatchScreen.prototype.__proto__ = AppScreen.prototype;
@@ -95,6 +97,7 @@ MatchScreen.prototype.onStart = function() {
     this.scoreLabels = [document.getElementById("player1Score"), document.getElementById("player2Score")];
     this.buttonsDiv = document.getElementById("buttons");
     this.inputText = document.getElementById("inputText");
+    this.signButton = document.getElementById("signButton");
 
     document.getElementById("player1Name").textContent = this.match.players[0].name;
     document.getElementById("player2Name").textContent = this.match.players[1].name;
@@ -106,20 +109,52 @@ MatchScreen.prototype.onResize = function() {
     this.resizeUI();
 }
 
-MatchScreen.prototype.playerClicked = function(playerIndex) {
+MatchScreen.prototype.setActivePlayer = function(playerIndex) {
     if(this.activePlayer != -1)
         this.scoreHolders[this.activePlayer].classList.remove("active");
-    if(this.activePlayer != playerIndex)
+    this.activePlayer = playerIndex;
+    if(this.activePlayer != -1)
     {
-        this.activePlayer = playerIndex;
         this.scoreHolders[this.activePlayer].classList.add("active");
+        this.newScoreSign = 1;
+        this.newScore = 0;
+        this.signButton.textContent = "-";
+        this.updateInputText();
         this.buttonsDiv.style.visibility = "visible";
     }
     else
     {
-        this.activePlayer = -1;
         this.buttonsDiv.style.visibility = "hidden";
     }
+}
+
+MatchScreen.prototype.playerClicked = function(playerIndex) {
+    if(playerIndex == this.activePlayer)
+        this.setActivePlayer(-1);
+    else
+        this.setActivePlayer(playerIndex);
+}
+
+MatchScreen.prototype.numberClicked = function(number) {
+    this.newScore = this.newScore * 10 + number;
+    this.updateInputText();
+}
+
+MatchScreen.prototype.signClicked = function() {
+    this.newScoreSign *= -1;
+    this.updateInputText();
+    this.signButton.textContent = this.newScoreSign == 1 ? "-" : "+";
+}
+
+MatchScreen.prototype.sendClicked = function() {
+    var turn = new Turn(this.match.players[this.activePlayer], this.newScore * this.newScoreSign);
+    this.match.turns.push(turn);
+    this.updateScoreLabel(this.activePlayer);
+    this.setActivePlayer(-1);
+}
+
+MatchScreen.prototype.updateInputText = function() {
+    this.inputText.textContent = (this.newScoreSign == -1 ? "-" : "") + this.newScore;
 }
 
 MatchScreen.prototype.updateScoreLabel = function(playerIndex) {
