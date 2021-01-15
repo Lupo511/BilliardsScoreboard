@@ -21,7 +21,7 @@
             </div>
             <div id="new_match" class="app_screen">
                 <div class="title">
-                    <h2>New match</h2>
+                    <h2 id="title">New match</h2>
                 </div>
                 <div class="content center">
                     <div class="container">
@@ -36,16 +36,16 @@
                                 </span>
                             </div>
                             <br>
-                            <input class="right" type="submit" value="Start">
+                            <input id="startButton" class="right" type="submit" value="Start">
                         </form>
-                        <button class="cancel left" onclick="app.currentScreen.backClicked();">Back</button>
+                        <button id="backButton" class="cancel left" onclick="app.currentScreen.backClicked();">Back</button>
                     </div>
                 </div>
             </div>
             <div id="match" class="app_screen">
                 <div class="scoreboard">
                     <div class="top_buttons">
-                        <button>Exit</button><button>Edit</button>
+                        <button onclick="app.currentScreen.exitClicked();">Exit</button><button onclick="app.currentScreen.editClicked();">Edit</button>
                     </div>
                     <div class="scores">
                         <div id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(0);">

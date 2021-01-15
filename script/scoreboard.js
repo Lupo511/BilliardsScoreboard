@@ -32,17 +32,30 @@ function MainScreen() {
 MainScreen.prototype.__proto__ = AppScreen.prototype;
 
 MainScreen.prototype.newMatchClicked = function() {
-    app.loadScreen(new NewMatchScreen());
+    app.loadScreen(new NewMatchScreen(null));
 }
 
-function NewMatchScreen() {
+function NewMatchScreen(match) {
     this.__proto__.__proto__.constructor.call(this);
 
     this.contentId = "new_match";
+
     this.nameRegex = /[\w\s]+/;
+    this.match = match;
 }
 
 NewMatchScreen.prototype.__proto__ = AppScreen.prototype;
+
+NewMatchScreen.prototype.onStart = function() {
+    if(this.match != null)
+    {
+        document.getElementById("title").textContent = "Edit match";
+        document.getElementById("player1").value = this.match.players[0].name;
+        document.getElementById("player2").value = this.match.players[1].name;
+        document.getElementById("startButton").value = "Save";
+        document.getElementById("backButton").textContent = "Cancel";
+    }
+}
 
 NewMatchScreen.prototype.checkName = function(name) {
     var result = name.match(this.nameRegex);
@@ -57,7 +70,6 @@ NewMatchScreen.prototype.formSubmit = function() {
     var errorLabel = document.getElementById("errorLabel");
     for(var i = 0; i < playerNames.length; i++)
     {
-        console.log(playerNames[i]);
         if(playerNames[i] == "")
         {
             errorLabel.textContent = "Insert a name for player " + (i + 1) + ".";
@@ -69,12 +81,24 @@ NewMatchScreen.prototype.formSubmit = function() {
             return false;
         }
     }
-    app.loadScreen(new MatchScreen(playerNames));
+    if(this.match == null)
+    {
+        this.match = new Match([new Player(playerNames[0]), new Player(playerNames[1])]);
+    }
+    else
+    {
+        this.match.players[0].name = playerNames[0];
+        this.match.players[1].name = playerNames[1];
+    }
+    app.loadScreen(new MatchScreen(this.match));
     return false;
 }
 
 NewMatchScreen.prototype.backClicked = function() {
-    app.loadScreen(new MainScreen());
+    if(this.match == null)
+        app.loadScreen(new MainScreen());
+    else
+        app.loadScreen(new MatchScreen(this.match));
 }
 
 function MatchScreen(match) {
@@ -126,6 +150,14 @@ MatchScreen.prototype.setActivePlayer = function(playerIndex) {
     {
         this.buttonsDiv.style.visibility = "hidden";
     }
+}
+
+MatchScreen.prototype.exitClicked = function() {
+    app.loadScreen(new MainScreen());
+}
+
+MatchScreen.prototype.editClicked = function() {
+    app.loadScreen(new NewMatchScreen(this.match));
 }
 
 MatchScreen.prototype.playerClicked = function(playerIndex) {
@@ -181,5 +213,5 @@ MatchScreen.prototype.resizeUI = function() {
 }
 
 window.addEventListener("load", function() {
-    app.loadScreen(new MatchScreen(new Match([new Player("Player 1"), new Player("Player 2")])));
+    app.loadScreen(new MainScreen());
 });
