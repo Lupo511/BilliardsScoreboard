@@ -114,9 +114,7 @@ function MatchScreen(match) {
 
 MatchScreen.prototype.__proto__ = AppScreen.prototype;
 
-MatchScreen.prototype.onStart = function() {
-    this.resizeUI();
-    
+MatchScreen.prototype.onStart = function() {    
     this.scoreHolders = [document.getElementById("player1ScoreHolder"), document.getElementById("player2ScoreHolder")];
     this.scoreLabels = [document.getElementById("player1Score"), document.getElementById("player2Score")];
     this.historyDiv = document.getElementById("history");
@@ -132,6 +130,8 @@ MatchScreen.prototype.onStart = function() {
     this.updateScoreLabel(0);
     this.updateScoreLabel(1);
     this.match.turns.forEach(turn => this.addTurnToHistoryDiv(turn));
+    
+    this.resizeUI();
 }
 
 MatchScreen.prototype.onResize = function() {
@@ -218,6 +218,7 @@ MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
         turnElement.appendChild(scoreElement);
     }
     this.turnsDiv.prepend(turnElement);
+    window.requestAnimationFrame(() => this.resizeHistory());
 }
 
 MatchScreen.prototype.resizeUI = function() {
@@ -237,6 +238,11 @@ MatchScreen.prototype.resizeUI = function() {
         scores[i].style.fontSize = textHeight;
         scores[i].style.lineHeight = textHeight;
     }
+    this.resizeHistory();
+}
+
+MatchScreen.prototype.resizeHistory = function() {
+    this.historyDiv.style.paddingLeft = (this.historyDiv.offsetWidth - this.historyDiv.scrollWidth) + "px";
 }
 
 window.addEventListener("load", function() {
