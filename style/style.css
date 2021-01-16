@@ -174,10 +174,32 @@ div.history {
     overflow-y: auto;
 }
 
-div.turn {
-    width: 80vh;
-    margin: 0 auto;
+div.history div.players {
     font-size: 1.5em;
+}
+
+@media (min-width: 80vh) {
+    div.history div.players {
+        display: none;
+    }
+}
+
+div.history div.players span.player {
+    display: inline-block;
+    width: 50%;
+    padding: 5px 0 0 0;
+    text-align: center;
+}
+
+div.turn {
+    font-size: 1.5em;
+}
+
+@media (min-width: 80vh) {
+    div.turn {
+        width: 80vh;
+        margin: 0 auto;
+    }
 }
 
 span.turn_score {

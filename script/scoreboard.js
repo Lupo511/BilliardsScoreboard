@@ -120,12 +120,15 @@ MatchScreen.prototype.onStart = function() {
     this.scoreHolders = [document.getElementById("player1ScoreHolder"), document.getElementById("player2ScoreHolder")];
     this.scoreLabels = [document.getElementById("player1Score"), document.getElementById("player2Score")];
     this.historyDiv = document.getElementById("history");
+    this.turnsDiv = document.getElementById("turns");
     this.buttonsDiv = document.getElementById("buttons");
     this.inputText = document.getElementById("inputText");
     this.signButton = document.getElementById("signButton");
 
     document.getElementById("player1Name").textContent = this.match.players[0].name;
     document.getElementById("player2Name").textContent = this.match.players[1].name;
+    document.getElementById("historyPlayer1Name").textContent = this.match.players[0].name;
+    document.getElementById("historyPlayer2Name").textContent = this.match.players[1].name;
     this.updateScoreLabel(0);
     this.updateScoreLabel(1);
     this.match.turns.forEach(turn => this.addTurnToHistoryDiv(turn));
@@ -214,7 +217,7 @@ MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
             scoreElement.classList.add("negative");
         turnElement.appendChild(scoreElement);
     }
-    this.historyDiv.prepend(turnElement);
+    this.turnsDiv.prepend(turnElement);
 }
 
 MatchScreen.prototype.resizeUI = function() {
