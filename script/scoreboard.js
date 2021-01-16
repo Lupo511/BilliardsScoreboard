@@ -222,7 +222,7 @@ MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
 }
 
 MatchScreen.prototype.resizeUI = function() {
-    var scoresHeight = document.body.clientHeight - document.getElementsByClassName("top_buttons")[0].clientHeight - document.getElementsByClassName("bottom")[0].clientHeight - 2;
+    var scoresHeight = document.body.clientHeight - document.getElementsByClassName("top_buttons")[0].clientHeight - document.getElementsByClassName("bottom")[0].clientHeight;
     document.getElementsByClassName("scores")[0].style.height = scoresHeight + "px";
     var playerNames = document.getElementsByClassName("player_name");
     for(var i = 0; i < playerNames.length; i++)
