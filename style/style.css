@@ -164,10 +164,29 @@ div.score_holder span.score {
     }
 }
 
-div.buttons {
-    visibility: hidden;
+div.bottom {
     height: 50vh;
     text-align: center;
+}
+
+div.history {
+    height: 100%;
+    overflow-y: auto;
+}
+
+div.turn {
+    width: 80vh;
+    margin: 0 auto;
+}
+
+span.turn_score {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+}
+
+div.buttons {
+    display: none;
 }
 
 div.calculator {

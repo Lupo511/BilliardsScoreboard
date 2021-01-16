@@ -119,6 +119,7 @@ MatchScreen.prototype.onStart = function() {
     
     this.scoreHolders = [document.getElementById("player1ScoreHolder"), document.getElementById("player2ScoreHolder")];
     this.scoreLabels = [document.getElementById("player1Score"), document.getElementById("player2Score")];
+    this.historyDiv = document.getElementById("history");
     this.buttonsDiv = document.getElementById("buttons");
     this.inputText = document.getElementById("inputText");
     this.signButton = document.getElementById("signButton");
@@ -127,6 +128,7 @@ MatchScreen.prototype.onStart = function() {
     document.getElementById("player2Name").textContent = this.match.players[1].name;
     this.updateScoreLabel(0);
     this.updateScoreLabel(1);
+    this.match.turns.forEach(turn => this.addTurnToHistoryDiv(turn));
 }
 
 MatchScreen.prototype.onResize = function() {
@@ -144,11 +146,13 @@ MatchScreen.prototype.setActivePlayer = function(playerIndex) {
         this.newScore = 0;
         this.signButton.textContent = "-";
         this.updateInputText();
-        this.buttonsDiv.style.visibility = "visible";
+        this.historyDiv.style.display = "none";
+        this.buttonsDiv.style.display = "block";
     }
     else
     {
-        this.buttonsDiv.style.visibility = "hidden";
+        this.buttonsDiv.style.display = "none";
+        this.historyDiv.style.display = "block";
     }
 }
 
@@ -182,6 +186,7 @@ MatchScreen.prototype.sendClicked = function() {
     var turn = new Turn(this.match.players[this.activePlayer], this.newScore * this.newScoreSign);
     this.match.turns.push(turn);
     this.updateScoreLabel(this.activePlayer);
+    this.addTurnToHistoryDiv(turn);
     this.setActivePlayer(-1);
 }
 
@@ -193,8 +198,23 @@ MatchScreen.prototype.updateScoreLabel = function(playerIndex) {
     this.scoreLabels[playerIndex].textContent = this.match.getScoreForPlayer(this.match.players[playerIndex]);
 }
 
+MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
+    var playerIndex = this.match.players.findIndex(player => player == turn.player);
+    var turnElement = document.createElement("div");
+    turnElement.classList.add("turn");
+    for(var i = 0; i < 2; i++)
+    {
+        var scoreElement = document.createElement("span");
+        scoreElement.classList.add("turn_score");
+        if(playerIndex == i)
+            scoreElement.textContent = turn.score;
+        turnElement.appendChild(scoreElement);
+    }
+    this.historyDiv.prepend(turnElement);
+}
+
 MatchScreen.prototype.resizeUI = function() {
-    var scoresHeight = document.body.clientHeight - document.getElementsByClassName("top_buttons")[0].clientHeight - document.getElementsByClassName("buttons")[0].clientHeight - 2;
+    var scoresHeight = document.body.clientHeight - document.getElementsByClassName("top_buttons")[0].clientHeight - document.getElementsByClassName("bottom")[0].clientHeight - 2;
     document.getElementsByClassName("scores")[0].style.height = scoresHeight + "px";
     var playerNames = document.getElementsByClassName("player_name");
     for(var i = 0; i < playerNames.length; i++)
