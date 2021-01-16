@@ -177,12 +177,22 @@ div.history {
 div.turn {
     width: 80vh;
     margin: 0 auto;
+    font-size: 1.5em;
 }
 
 span.turn_score {
     display: inline-block;
     width: 50%;
+    padding: 5px 0 0 0;
     text-align: center;
+}
+
+span.turn_score.positive {
+    color: #00c000;
+}
+
+span.turn_score.negative {
+    color: #c00000;
 }
 
 div.buttons {

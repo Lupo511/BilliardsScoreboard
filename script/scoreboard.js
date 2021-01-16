@@ -207,7 +207,11 @@ MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
         var scoreElement = document.createElement("span");
         scoreElement.classList.add("turn_score");
         if(playerIndex == i)
-            scoreElement.textContent = turn.score;
+            scoreElement.textContent = (turn.score > 0 ? "+" : "") + turn.score;
+        if(turn.score > 0)
+            scoreElement.classList.add("positive");
+        else if(turn.score < 0)
+            scoreElement.classList.add("negative");
         turnElement.appendChild(scoreElement);
     }
     this.historyDiv.prepend(turnElement);
