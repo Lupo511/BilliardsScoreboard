@@ -1,4 +1,11 @@
 var app = {};
+app.screenResources = new Map();
+
+app.loadResources = function() {
+    var screenResourcesDiv = document.getElementById("screenResources");
+    screenResourcesDiv.childNodes.forEach(res => this.screenResources.set(res.id, res));
+    screenResourcesDiv.remove();
+}
 
 app.loadScreen = function(screen) {
     var currentScreenDiv = document.getElementById("screen");
@@ -10,7 +17,7 @@ app.loadScreen = function(screen) {
 
     if(screen.contentId != null)
     {
-        var newScreenDiv = document.getElementById(screen.contentId).cloneNode(true);
+        var newScreenDiv = this.screenResources.get(screen.contentId).cloneNode(true);
         newScreenDiv.id = "screen";
         document.body.prepend(newScreenDiv);
     }
@@ -24,6 +31,10 @@ app.onResize = function(event) {
         this.currentScreen.onResize();
     }
 }
+
+window.addEventListener("load", function() {
+    app.loadResources();
+});
 
 window.addEventListener("resize", (e) => app.onResize(e));
 
