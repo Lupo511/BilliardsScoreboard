@@ -265,3 +265,30 @@ span.win_score_holder span.player_name {
 span.win_score_holder span.score {
     font-size: 1.5em;
 }
+
+div.win_history {
+    height: 100px;
+    overflow-y: auto;
+}
+
+div.win_history div.players {
+    display: block;
+}
+
+@media (min-width: 20em) {
+    div.win_history div.players {
+        display: none;
+    }
+}
+
+div.win_history div.turn {
+    width: 100%;
+    font-size: 1em;
+}
+
+@media (min-width: 20em) {
+    div.win_history div.turn {
+        width: 10em;
+        margin: 0 auto;
+    }
+}

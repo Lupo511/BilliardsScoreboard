@@ -287,6 +287,10 @@ WinScreen.prototype.onStart = function() {
     document.getElementById("player2Name").textContent = this.match.players[1].name;
     document.getElementById("player1Score").textContent = this.match.getScoreForPlayer(this.match.players[0]);
     document.getElementById("player2Score").textContent = this.match.getScoreForPlayer(this.match.players[1]);
+    var turnHistoryDiv = new TurnHistoryDiv(this.match);
+    turnHistoryDiv.historyDiv.classList.add("win_history");
+    var undoButton = document.getElementById("undoButton");
+    undoButton.parentElement.insertBefore(turnHistoryDiv.historyDiv, undoButton);
 }
 
 WinScreen.prototype.undoClicked = function() {
