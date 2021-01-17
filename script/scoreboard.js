@@ -30,6 +30,51 @@ Match.prototype.getWinningPlayer = function() {
     return null;
 }
 
+function TurnHistoryDiv(match)
+{
+    this.match = match;
+    this.historyDiv = document.createElement("div");
+    this.historyDiv.classList.add("history");
+    var playersDiv = document.createElement("div");
+    playersDiv.classList.add("players");
+    for(var i = 0; i < 2; i++)
+    {
+        var playerSpan = document.createElement("span");
+        playerSpan.classList.add("player");
+        playerSpan.textContent = this.match.players[i].name;
+        playersDiv.appendChild(playerSpan);
+    }
+    this.historyDiv.appendChild(playersDiv);
+    this.turnsDiv = document.createElement("div");
+    this.historyDiv.appendChild(this.turnsDiv);
+    this.match.turns.forEach(turn => this.turnAdded(turn, true));
+    this.resizeWidth();
+}
+
+TurnHistoryDiv.prototype.turnAdded = function(turn, dontResize = false) {
+    var playerIndex = this.match.players.findIndex(player => player == turn.player);
+    var turnElement = document.createElement("div");
+    turnElement.classList.add("turn");
+    for(var i = 0; i < 2; i++)
+    {
+        var scoreElement = document.createElement("span");
+        scoreElement.classList.add("turn_score");
+        if(playerIndex == i)
+            scoreElement.textContent = (turn.score > 0 ? "+" : "") + turn.score;
+        if(turn.score > 0)
+            scoreElement.classList.add("positive");
+        else if(turn.score < 0)
+            scoreElement.classList.add("negative");
+        turnElement.appendChild(scoreElement);
+    }
+    this.turnsDiv.prepend(turnElement);
+    app.requestScreenAnimationFrame(() => this.resizeWidth());
+}
+
+TurnHistoryDiv.prototype.resizeWidth = function() {
+    this.historyDiv.style.paddingLeft = (this.historyDiv.offsetWidth - this.historyDiv.scrollWidth) + "px";
+}
+
 function MainScreen() {
     this.__proto__.__proto__.constructor.call(this);
 
@@ -124,19 +169,16 @@ MatchScreen.prototype.__proto__ = AppScreen.prototype;
 MatchScreen.prototype.onStart = function() {    
     this.scoreHolders = [document.getElementById("player1ScoreHolder"), document.getElementById("player2ScoreHolder")];
     this.scoreLabels = [document.getElementById("player1Score"), document.getElementById("player2Score")];
-    this.historyDiv = document.getElementById("history");
-    this.turnsDiv = document.getElementById("turns");
     this.buttonsDiv = document.getElementById("buttons");
     this.inputText = document.getElementById("inputText");
     this.signButton = document.getElementById("signButton");
+    this.turnHistoryDiv = new TurnHistoryDiv(this.match);
 
     document.getElementById("player1Name").textContent = this.match.players[0].name;
     document.getElementById("player2Name").textContent = this.match.players[1].name;
-    document.getElementById("historyPlayer1Name").textContent = this.match.players[0].name;
-    document.getElementById("historyPlayer2Name").textContent = this.match.players[1].name;
     this.updateScoreLabel(0);
     this.updateScoreLabel(1);
-    this.match.turns.forEach(turn => this.addTurnToHistoryDiv(turn));
+    document.getElementById("bottom").prepend(this.turnHistoryDiv.historyDiv);
     
     this.resizeUI();
 }
@@ -156,13 +198,13 @@ MatchScreen.prototype.setActivePlayer = function(playerIndex) {
         this.newScore = 0;
         this.signButton.textContent = "-";
         this.updateInputText();
-        this.historyDiv.style.display = "none";
+        this.turnHistoryDiv.historyDiv.style.display = "none";
         this.buttonsDiv.style.display = "block";
     }
     else
     {
         this.buttonsDiv.style.display = "none";
-        this.historyDiv.style.display = "block";
+        this.turnHistoryDiv.historyDiv.style.display = "block";
     }
 }
 
@@ -196,7 +238,7 @@ MatchScreen.prototype.sendClicked = function() {
     var turn = new Turn(this.match.players[this.activePlayer], this.newScore * this.newScoreSign);
     this.match.turns.push(turn);
     this.updateScoreLabel(this.activePlayer);
-    this.addTurnToHistoryDiv(turn);
+    this.turnHistoryDiv.turnAdded(turn);
     this.setActivePlayer(-1);
     if(this.match.getWinningPlayer() != null)
         app.loadScreen(new WinScreen(this.match));
@@ -208,26 +250,6 @@ MatchScreen.prototype.updateInputText = function() {
 
 MatchScreen.prototype.updateScoreLabel = function(playerIndex) {
     this.scoreLabels[playerIndex].textContent = this.match.getScoreForPlayer(this.match.players[playerIndex]);
-}
-
-MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
-    var playerIndex = this.match.players.findIndex(player => player == turn.player);
-    var turnElement = document.createElement("div");
-    turnElement.classList.add("turn");
-    for(var i = 0; i < 2; i++)
-    {
-        var scoreElement = document.createElement("span");
-        scoreElement.classList.add("turn_score");
-        if(playerIndex == i)
-            scoreElement.textContent = (turn.score > 0 ? "+" : "") + turn.score;
-        if(turn.score > 0)
-            scoreElement.classList.add("positive");
-        else if(turn.score < 0)
-            scoreElement.classList.add("negative");
-        turnElement.appendChild(scoreElement);
-    }
-    this.turnsDiv.prepend(turnElement);
-    app.requestScreenAnimationFrame(() => this.resizeHistory());
 }
 
 MatchScreen.prototype.resizeUI = function() {
@@ -247,11 +269,6 @@ MatchScreen.prototype.resizeUI = function() {
         scores[i].style.fontSize = textHeight;
         scores[i].style.lineHeight = textHeight;
     }
-    this.resizeHistory();
-}
-
-MatchScreen.prototype.resizeHistory = function() {
-    this.historyDiv.style.paddingLeft = (this.historyDiv.offsetWidth - this.historyDiv.scrollWidth) + "px";
 }
 
 function WinScreen(match) {
