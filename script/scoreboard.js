@@ -191,7 +191,6 @@ MatchScreen.prototype.onStart = function() {
 
 MatchScreen.prototype.onResize = function() {
     this.resizeUI();
-    this.turnHistoryDiv.resizeWidth();
 }
 
 MatchScreen.prototype.setActivePlayer = function(playerIndex) {
@@ -276,6 +275,7 @@ MatchScreen.prototype.resizeUI = function() {
         scores[i].style.fontSize = textHeight;
         scores[i].style.lineHeight = textHeight;
     }
+    this.turnHistoryDiv.resizeWidth();
 }
 
 function WinScreen(match) {
@@ -299,6 +299,7 @@ WinScreen.prototype.onStart = function() {
     turnHistoryDiv.historyDiv.classList.add("win_history");
     var undoButton = document.getElementById("undoButton");
     undoButton.parentElement.insertBefore(turnHistoryDiv.historyScrollDiv, undoButton);
+    turnHistoryDiv.resizeWidth();
 }
 
 WinScreen.prototype.onResize = function() {
