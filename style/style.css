@@ -273,6 +273,7 @@ span.win_score_holder span.score {
 
 div.win_history_scroll {
     height: 100px;
+    margin-bottom: 5px;
 }
 
 div.win_history {
