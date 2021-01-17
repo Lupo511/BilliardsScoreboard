@@ -110,7 +110,7 @@ button.cancel {
     background-color: #c00000;
 }
 
-input[type=submit].right {
+button.right, input[type=submit].right {
     float: right;
     margin-right: 0;
 }
@@ -250,4 +250,18 @@ div.calculator span.row button {
 
 div.calculator span.row button:last-child {
     margin-right: 0;
+}
+
+span.win_score_holder {
+    display: inline-block;
+}
+
+span.win_score_holder span.player_name {
+    display: block;
+    width: 5em;
+    font-size: 1.5em;
+}
+
+span.win_score_holder span.score {
+    font-size: 1.5em;
 }

@@ -266,6 +266,10 @@ WinScreen.prototype.__proto__ = AppScreen.prototype;
 
 WinScreen.prototype.onStart = function() {
     document.getElementById("winLabel").textContent = this.match.getWinningPlayer().name + " won!";
+    document.getElementById("player1Name").textContent = this.match.players[0].name;
+    document.getElementById("player2Name").textContent = this.match.players[1].name;
+    document.getElementById("player1Score").textContent = this.match.getScoreForPlayer(this.match.players[0]);
+    document.getElementById("player2Score").textContent = this.match.getScoreForPlayer(this.match.players[1]);
 }
 
 WinScreen.prototype.undoClicked = function() {
