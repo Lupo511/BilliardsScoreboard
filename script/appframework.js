@@ -25,6 +25,14 @@ app.loadScreen = function(screen) {
     this.currentScreen.onStart();
 }
 
+app.requestScreenAnimationFrame = function(callback) {
+    var callingScreen = this.currentScreen;
+    window.requestAnimationFrame((t) => {
+        if(callingScreen == this.currentScreen)
+            callback(t);
+    });
+}
+
 app.onResize = function(event) {
     if(this.currentScreen != null)
     {

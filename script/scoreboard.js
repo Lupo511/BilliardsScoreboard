@@ -23,6 +23,13 @@ Match.prototype.getScoreForPlayer = function(player) {
     return score;
 }
 
+Match.prototype.getWinningPlayer = function() {
+    var player = this.players.find(player => this.getScoreForPlayer(player) >= this.targetScore);
+    if(player != undefined)
+        return player;
+    return null;
+}
+
 function MainScreen() {
     this.__proto__.__proto__.constructor.call(this);
 
@@ -191,6 +198,8 @@ MatchScreen.prototype.sendClicked = function() {
     this.updateScoreLabel(this.activePlayer);
     this.addTurnToHistoryDiv(turn);
     this.setActivePlayer(-1);
+    if(this.match.getWinningPlayer() != null)
+        app.loadScreen(new WinScreen(this.match));
 }
 
 MatchScreen.prototype.updateInputText = function() {
@@ -218,7 +227,7 @@ MatchScreen.prototype.addTurnToHistoryDiv = function(turn) {
         turnElement.appendChild(scoreElement);
     }
     this.turnsDiv.prepend(turnElement);
-    window.requestAnimationFrame(() => this.resizeHistory());
+    app.requestScreenAnimationFrame(() => this.resizeHistory());
 }
 
 MatchScreen.prototype.resizeUI = function() {
@@ -243,6 +252,29 @@ MatchScreen.prototype.resizeUI = function() {
 
 MatchScreen.prototype.resizeHistory = function() {
     this.historyDiv.style.paddingLeft = (this.historyDiv.offsetWidth - this.historyDiv.scrollWidth) + "px";
+}
+
+function WinScreen(match) {
+    this.__proto__.__proto__.constructor(this);
+
+    this.contentId = "win";
+
+    this.match = match;
+}
+
+WinScreen.prototype.__proto__ = AppScreen.prototype;
+
+WinScreen.prototype.onStart = function() {
+    document.getElementById("winLabel").textContent = this.match.getWinningPlayer().name + " won!";
+}
+
+WinScreen.prototype.undoClicked = function() {
+    this.match.turns.pop();
+    app.loadScreen(new MatchScreen(this.match));
+}
+
+WinScreen.prototype.finishClicked = function() {
+    app.loadScreen(new MainScreen());
 }
 
 window.addEventListener("load", function() {
