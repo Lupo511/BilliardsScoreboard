@@ -191,6 +191,7 @@ MatchScreen.prototype.onStart = function() {
 
 MatchScreen.prototype.onResize = function() {
     this.resizeUI();
+    this.turnHistoryDiv.resizeWidth();
 }
 
 MatchScreen.prototype.setActivePlayer = function(playerIndex) {
@@ -298,6 +299,10 @@ WinScreen.prototype.onStart = function() {
     turnHistoryDiv.historyDiv.classList.add("win_history");
     var undoButton = document.getElementById("undoButton");
     undoButton.parentElement.insertBefore(turnHistoryDiv.historyScrollDiv, undoButton);
+}
+
+WinScreen.prototype.onResize = function() {
+    this.turnHistoryDiv.resizeWidth();
 }
 
 WinScreen.prototype.undoClicked = function() {
