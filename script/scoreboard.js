@@ -33,8 +33,13 @@ Match.prototype.getWinningPlayer = function() {
 function TurnHistoryDiv(match)
 {
     this.match = match;
+    this.historyScrollDiv = document.createElement("div");
+    this.historyScrollDiv.classList.add("history_scroll");
+    this.historyContainerDiv = document.createElement("div");
     this.historyDiv = document.createElement("div");
     this.historyDiv.classList.add("history");
+    this.historyContainerDiv.appendChild(this.historyDiv);
+    this.historyScrollDiv.appendChild(this.historyContainerDiv);
     var playersDiv = document.createElement("div");
     playersDiv.classList.add("players");
     for(var i = 0; i < 2; i++)
@@ -72,7 +77,8 @@ TurnHistoryDiv.prototype.turnAdded = function(turn, dontResize = false) {
 }
 
 TurnHistoryDiv.prototype.resizeWidth = function() {
-    this.historyDiv.style.paddingLeft = (this.historyDiv.offsetWidth - this.historyDiv.scrollWidth) + "px";
+    var scrollbarOffset = this.historyScrollDiv.offsetWidth - this.historyScrollDiv.scrollWidth;
+    this.historyContainerDiv.style.width = this.historyScrollDiv.offsetWidth + "px";
 }
 
 function MainScreen() {
@@ -178,7 +184,7 @@ MatchScreen.prototype.onStart = function() {
     document.getElementById("player2Name").textContent = this.match.players[1].name;
     this.updateScoreLabel(0);
     this.updateScoreLabel(1);
-    document.getElementById("bottom").prepend(this.turnHistoryDiv.historyDiv);
+    document.getElementById("bottom").prepend(this.turnHistoryDiv.historyScrollDiv);
     
     this.resizeUI();
 }
@@ -198,13 +204,13 @@ MatchScreen.prototype.setActivePlayer = function(playerIndex) {
         this.newScore = 0;
         this.signButton.textContent = "-";
         this.updateInputText();
-        this.turnHistoryDiv.historyDiv.style.display = "none";
+        this.turnHistoryDiv.historyScrollDiv.style.display = "none";
         this.buttonsDiv.style.display = "block";
     }
     else
     {
         this.buttonsDiv.style.display = "none";
-        this.turnHistoryDiv.historyDiv.style.display = "block";
+        this.turnHistoryDiv.historyScrollDiv.style.display = "block";
     }
 }
 
@@ -288,9 +294,10 @@ WinScreen.prototype.onStart = function() {
     document.getElementById("player1Score").textContent = this.match.getScoreForPlayer(this.match.players[0]);
     document.getElementById("player2Score").textContent = this.match.getScoreForPlayer(this.match.players[1]);
     var turnHistoryDiv = new TurnHistoryDiv(this.match);
+    turnHistoryDiv.historyScrollDiv.classList.add("win_history_scroll");
     turnHistoryDiv.historyDiv.classList.add("win_history");
     var undoButton = document.getElementById("undoButton");
-    undoButton.parentElement.insertBefore(turnHistoryDiv.historyDiv, undoButton);
+    undoButton.parentElement.insertBefore(turnHistoryDiv.historyScrollDiv, undoButton);
 }
 
 WinScreen.prototype.undoClicked = function() {

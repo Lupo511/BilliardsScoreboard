@@ -169,9 +169,21 @@ div.bottom {
     text-align: center;
 }
 
-div.history {
+div.history_scroll {
     height: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
+}
+
+div.history_container {
+    position: relative;
+}
+
+@media (min-width: 80vh) {
+    div.history {
+        width: 80vh;
+        margin: 0 auto;
+    }
 }
 
 div.history div.players {
@@ -193,13 +205,6 @@ div.history div.players span.player {
 
 div.turn {
     font-size: 1.5em;
-}
-
-@media (min-width: 80vh) {
-    div.turn {
-        width: 80vh;
-        margin: 0 auto;
-    }
 }
 
 span.turn_score {
@@ -266,9 +271,19 @@ span.win_score_holder span.score {
     font-size: 1.5em;
 }
 
-div.win_history {
+div.win_history_scroll {
     height: 100px;
-    overflow-y: auto;
+}
+
+div.win_history {
+    width: 100%;
+}
+
+@media (min-width: 20em) {
+    div.win_history {
+        width: 10em;
+        margin: 0 auto;
+    }
 }
 
 div.win_history div.players {
@@ -282,13 +297,5 @@ div.win_history div.players {
 }
 
 div.win_history div.turn {
-    width: 100%;
     font-size: 1em;
-}
-
-@media (min-width: 20em) {
-    div.win_history div.turn {
-        width: 10em;
-        margin: 0 auto;
-    }
 }
