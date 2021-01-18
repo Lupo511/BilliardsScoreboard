@@ -282,7 +282,7 @@ div.win_history {
 
 @media (min-width: 20em) {
     div.win_history {
-        width: 10em;
+        width: 15em;
         margin: 0 auto;
     }
 }
