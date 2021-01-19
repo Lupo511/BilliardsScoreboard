@@ -315,6 +315,6 @@ WinScreen.prototype.finishClicked = function() {
     app.loadScreen(new MainScreen());
 }
 
-window.addEventListener("load", function() {
+app.onstart = function() {
     app.loadScreen(new MainScreen());
-});
+}
