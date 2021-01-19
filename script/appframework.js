@@ -77,6 +77,7 @@ app.loadScreen = function(screen) {
     {
         var newScreenDiv = this.resourceManager.screens.get(screen.contentId).cloneNode(true);
         newScreenDiv.id = "screen";
+        this.initializeElement(newScreenDiv);
         document.body.prepend(newScreenDiv);
     }
 
@@ -89,6 +90,14 @@ app.requestScreenAnimationFrame = function(callback) {
         if(callingScreen == this.currentScreen)
             callback(t);
     });
+}
+
+app.initializeElement = function(element) {
+    if(element.nodeType == Node.TEXT_NODE && element.textContent.startsWith("@res:")) {
+        var resourceId = element.textContent.substring(5);
+        element.textContent = this.resourceManager.strings.get(resourceId);
+    }
+    element.childNodes.forEach(child => this.initializeElement(child));
 }
 
 app.onResize = function(event) {
