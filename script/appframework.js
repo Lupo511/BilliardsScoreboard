@@ -54,11 +54,15 @@ ResourceManager.prototype.loadResources = function(locale, onLoaded) {
     if(locale != null)
     {
         loadPromises.push(new RequestPromise("res/" + locale + "/strings/strings.json", (request) => {
-            this.strings = new Map(JSON.parse(request.responseText));
+            this.updateMap(this.strings, JSON.parse(request.responseText));
         }));
     }
 
     RequestPromise.waitAll(loadPromises, () => { if(onLoaded != null) onLoaded(); });
+}
+
+ResourceManager.prototype.updateMap = function(map, entries) {
+    entries.forEach(entry => map.set(entry[0], entry[1]));
 }
 
 var app = {};
