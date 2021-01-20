@@ -139,7 +139,7 @@ app.onResize = function(event) {
 }
 
 window.addEventListener("load", function() {
-    app.resourceManager.loadResources(null, () => { if(app.onstart != null) app.onstart(); })
+    app.resourceManager.loadResources(navigator.language, () => { if(app.onstart != null) app.onstart(); })
 });
 
 window.addEventListener("resize", (e) => app.onResize(e));
