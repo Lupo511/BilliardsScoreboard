@@ -13,5 +13,6 @@
     ["player", "Giocatore {0}"],
     ["validPlayerNameCharacters", "Caratteri alfanumerici o spazi."],
     ["insertName", "Inserisci un nome per il giocatore {0}."],
-    ["invalidName", "Nome per il giocatore {0} non valido: sono accettati solo caratteri alfanumerici o spazi."]
+    ["invalidName", "Nome per il giocatore {0} non valido: sono accettati solo caratteri alfanumerici o spazi."],
+    ["playerWon", "{0} ha vinto!"]
 ]

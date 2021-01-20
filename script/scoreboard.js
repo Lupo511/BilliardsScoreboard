@@ -291,7 +291,7 @@ function WinScreen(match) {
 WinScreen.prototype.__proto__ = AppScreen.prototype;
 
 WinScreen.prototype.onStart = function() {
-    document.getElementById("winLabel").textContent = this.match.getWinningPlayer().name + " won!";
+    document.getElementById("winLabel").textContent = app.resourceManager.getFormattedString("playerWon", this.match.getWinningPlayer().name);
     document.getElementById("player1Name").textContent = this.match.players[0].name;
     document.getElementById("player2Name").textContent = this.match.players[1].name;
     document.getElementById("player1Score").textContent = this.match.getScoreForPlayer(this.match.players[0]);
