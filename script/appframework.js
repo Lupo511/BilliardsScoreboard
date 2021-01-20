@@ -120,9 +120,13 @@ app.initializeElement = function(element) {
         var resourceId = element.textContent.substring(5);
         element.textContent = this.resourceManager.strings.get(resourceId);
     }
-    else if (element.nodeName == "INPUT" && element.value.startsWith("@res:")) {
+    else if(element.nodeName == "INPUT" && element.value.startsWith("@res:")) {
         var resourceId = element.value.substring(5);
         element.value = this.resourceManager.strings.get(resourceId);
+    }
+    if(element.nodeName == "INPUT" && element.title.startsWith("@res:")) {
+        var resourceId = element.title.substring(5);
+        element.title = this.resourceManager.strings.get(resourceId);
     }
     element.childNodes.forEach(child => this.initializeElement(child));
 }
