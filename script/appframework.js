@@ -72,6 +72,18 @@ ResourceManager.prototype.updateMap = function(map, entries) {
     entries.forEach(entry => map.set(entry[0], entry[1]));
 }
 
+ResourceManager.prototype.getFormattedString = function(id) {
+    var formatArguments = arguments;
+    return this.strings.get(id).replace(/{(\d+)}|\\([{\\])/g, (match, p1, p2) => {
+        if(p1 != undefined) {
+            return formatArguments[parseInt(p1) + 1];
+        }
+        else {
+            return p2;
+        }
+    });
+}
+
 var app = {};
 app.onstart = null;
 app.resourceManager = new ResourceManager();
