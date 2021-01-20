@@ -13,15 +13,15 @@
         <div id="screenResources" hidden>
             <div id="main" class="app_screen">
                 <div class="title">
-                    <h1>Billiards Scoreboard</h1>
+                    <h1>@res:appname</h1>
                 </div>
                 <div class="content center">
-                    <button onclick="app.currentScreen.newMatchClicked();">New match</button>
+                    <button onclick="app.currentScreen.newMatchClicked();">@res:newmatch</button>
                 </div>
             </div>
             <div id="new_match" class="app_screen">
                 <div class="title">
-                    <h2 id="title">New match</h2>
+                    <h2 id="title">@res:newmatch</h2>
                 </div>
                 <div class="content center">
                     <div class="container">
@@ -36,16 +36,16 @@
                                 </span>
                             </div>
                             <br>
-                            <input id="startButton" class="right" type="submit" value="Start">
+                            <input id="startButton" class="right" type="submit" value="@res:start">
                         </form>
-                        <button id="backButton" class="cancel left" onclick="app.currentScreen.backClicked();">Back</button>
+                        <button id="backButton" class="cancel left" onclick="app.currentScreen.backClicked();">@res:back</button>
                     </div>
                 </div>
             </div>
             <div id="match" class="app_screen">
                 <div class="scoreboard">
                     <div class="top_buttons">
-                        <button onclick="app.currentScreen.exitClicked();">Exit</button><button onclick="app.currentScreen.editClicked();">Edit</button>
+                        <button onclick="app.currentScreen.exitClicked();">@res:exit</button><button onclick="app.currentScreen.editClicked();">@res:edit</button>
                     </div>
                     <div class="scores">
                         <div id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(0);">
@@ -94,8 +94,8 @@
                         <div>
                             <span class="win_score_holder"><span id="player1Name" class="player_name"></span><span id="player1Score" class="score"></span></span><span class="win_score_holder"><span id="player2Name" class="player_name"></span><span id="player2Score" class="score"></span></span>
                         </div>
-                        <button id="undoButton" class="cancel left" onclick="app.currentScreen.undoClicked();">Undo</button>
-                        <button id="finishButton" class="right" onclick="app.currentScreen.finishClicked();">Finish</button>
+                        <button id="undoButton" class="cancel left" onclick="app.currentScreen.undoClicked();">@res:undo</button>
+                        <button id="finishButton" class="right" onclick="app.currentScreen.finishClicked();">@res:finish</button>
                     </div>
                 </div>
             </div>

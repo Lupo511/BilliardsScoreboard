@@ -1,0 +1,10 @@
+[
+    ["appname", "Billiards Scoreboard"],
+    ["newmatch", "New match"],
+    ["start", "Start"],
+    ["back", "Back"],
+    ["exit", "Exit"],
+    ["edit", "Edit"],
+    ["undo", "Undo"],
+    ["finish", "Finish"]
+]
