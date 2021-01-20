@@ -1,10 +1,16 @@
 [
     ["appname", "Billiards Scoreboard"],
     ["newmatch", "New match"],
+    ["editmatch", "Edit match"],
     ["start", "Start"],
+    ["save", "Save"],
     ["back", "Back"],
+    ["cancel", "Cancel"],
     ["exit", "Exit"],
     ["edit", "Edit"],
     ["undo", "Undo"],
-    ["finish", "Finish"]
+    ["finish", "Finish"],
+    ["player", "Player {0}"],
+    ["insertName", "Insert a name for player {0}."],
+    ["invalidName", "Invalid name for player {0}: only alphanumeric and whitespace characters are accepted."]
 ]

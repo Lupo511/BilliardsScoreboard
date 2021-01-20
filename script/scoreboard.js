@@ -105,13 +105,15 @@ function NewMatchScreen(match) {
 NewMatchScreen.prototype.__proto__ = AppScreen.prototype;
 
 NewMatchScreen.prototype.onStart = function() {
+    document.getElementById("player1label").textContent = app.resourceManager.getFormattedString("player", "1");
+    document.getElementById("player2label").textContent = app.resourceManager.getFormattedString("player", "2");
     if(this.match != null)
     {
-        document.getElementById("title").textContent = "Edit match";
+        document.getElementById("title").textContent = app.resourceManager.strings.get("editmatch");
         document.getElementById("player1").value = this.match.players[0].name;
         document.getElementById("player2").value = this.match.players[1].name;
-        document.getElementById("startButton").value = "Save";
-        document.getElementById("backButton").textContent = "Cancel";
+        document.getElementById("startButton").value = app.resourceManager.strings.get("save");
+        document.getElementById("backButton").textContent = app.resourceManager.strings.get("cancel");
     }
 }
 
@@ -130,12 +132,12 @@ NewMatchScreen.prototype.formSubmit = function() {
     {
         if(playerNames[i] == "")
         {
-            errorLabel.textContent = "Insert a name for player " + (i + 1) + ".";
+            errorLabel.textContent = app.resourceManager.getFormattedString("insertName", i + 1);
             return false;
         }
         if(!this.checkName(playerNames[i]))
         {
-            errorLabel.textContent = "Invalid name for player " + (i + 1) + ": only alphanumeric and whitespace characters are accepted.";
+            errorLabel.textContent = app.resourceManager.getFormattedString("invalidName", i + 1);
             return false;
         }
     }
