@@ -48,17 +48,24 @@ ResourceManager.prototype.loadResources = function(locale, onLoaded) {
 
     var loadPromises = [];
     loadPromises.push(new RequestPromise("res/strings/strings.json", (request) => {
-        this.updateMap(this.strings, JSON.parse(request.responseText));
+        this.strings = new Map(JSON.parse(request.responseText));
     }));
 
+    var layeredStrings = null;
     if(locale != null)
     {
         loadPromises.push(new RequestPromise("res/" + locale + "/strings/strings.json", (request) => {
-            this.updateMap(this.strings, JSON.parse(request.responseText));
+            layeredStrings = JSON.parse(request.responseText);
         }));
     }
 
-    RequestPromise.waitAll(loadPromises, () => { if(onLoaded != null) onLoaded(); });
+    RequestPromise.waitAll(loadPromises, () => {
+        if(layeredStrings != null)
+            this.updateMap(this.strings, layeredStrings);
+        
+        if(onLoaded != null)
+            onLoaded();
+    });
 }
 
 ResourceManager.prototype.updateMap = function(map, entries) {
