@@ -1,0 +1,17 @@
+[
+    ["appname", "Segnapunti Biliardo"],
+    ["newmatch", "Nuova partita"],
+    ["editmatch", "Modifica partita"],
+    ["start", "Inizia"],
+    ["save", "Salva"],
+    ["back", "Indietro"],
+    ["cancel", "Annulla"],
+    ["exit", "Esci"],
+    ["edit", "Modifica"],
+    ["undo", "Annulla"],
+    ["finish", "Fine"],
+    ["player", "Giocatore {0}"],
+    ["validPlayerNameCharacters", "Caratteri alfanumerici o spazi."],
+    ["insertName", "Inserisci un nome per il giocatore {0}."],
+    ["invalidName", "Nome per il giocatore {0} non valido: sono accettati solo caratteri alfanumerici o spazi."]
+]
