@@ -48,7 +48,7 @@ ResourceManager.prototype.loadResources = function(locale, onLoaded) {
 
     var loadPromises = [];
     loadPromises.push(new RequestPromise("res/strings/strings.json", (request) => {
-        this.strings = new Map(JSON.parse(request.responseText));
+        this.updateMap(this.strings, JSON.parse(request.responseText));
     }));
 
     if(locale != null)
