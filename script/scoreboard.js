@@ -296,12 +296,12 @@ WinScreen.prototype.onStart = function() {
     document.getElementById("player2Name").textContent = this.match.players[1].name;
     document.getElementById("player1Score").textContent = this.match.getScoreForPlayer(this.match.players[0]);
     document.getElementById("player2Score").textContent = this.match.getScoreForPlayer(this.match.players[1]);
-    var turnHistoryDiv = new TurnHistoryDiv(this.match);
-    turnHistoryDiv.historyScrollDiv.classList.add("win_history_scroll");
-    turnHistoryDiv.historyDiv.classList.add("win_history");
+    this.turnHistoryDiv = new TurnHistoryDiv(this.match);
+    this.turnHistoryDiv.historyScrollDiv.classList.add("win_history_scroll");
+    this.turnHistoryDiv.historyDiv.classList.add("win_history");
     var undoButton = document.getElementById("undoButton");
-    undoButton.parentElement.insertBefore(turnHistoryDiv.historyScrollDiv, undoButton);
-    turnHistoryDiv.resizeWidth();
+    undoButton.parentElement.insertBefore(this.turnHistoryDiv.historyScrollDiv, undoButton);
+    this.turnHistoryDiv.resizeWidth();
 }
 
 WinScreen.prototype.onResize = function() {
