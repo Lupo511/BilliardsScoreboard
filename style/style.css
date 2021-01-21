@@ -174,28 +174,32 @@ div.scores {
     text-align: center;
 }
 
-div.score_holder {
+button.score_holder {
     display: block;
     height: 50%;
     width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-color: #002080;
 }
 
-div.score_holder.active {
+button.score_holder.active {
     background-color: #3054bf;
 }
 
-div.score_holder span.player_name {
+button.score_holder span.player_name {
     display: block;
     height: 25%;
 }
 
-div.score_holder span.score {
+button.score_holder span.score {
     display: block;
     height: 75%;
 }
 
 @media (min-width: 80vh) {
-    div.score_holder {
+    button.score_holder {
         display: inline-block;
         height: 100%;
         width: 40vh;
