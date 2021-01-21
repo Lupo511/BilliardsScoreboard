@@ -19,6 +19,11 @@ body {
     font-weight: 100;
 }
 
+::selection {
+    background-color: #ffffff;
+    color: #002080;
+}
+
 div.app_screen {
     width: 100%;
     height: 100%;
