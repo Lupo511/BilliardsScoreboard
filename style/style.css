@@ -98,6 +98,11 @@ input[type=text] {
     font: inherit;
 }
 
+input[type=text]::selection {
+    background-color: #002080;
+    color: #ffffff;
+}
+
 button, input[type=submit] {
     border: 0;
     margin: 0 10px 10px 0;
