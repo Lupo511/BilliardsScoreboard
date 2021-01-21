@@ -87,6 +87,10 @@ ResourceManager.prototype.getFormattedString = function(id) {
 var app = {};
 app.onstart = null;
 app.resourceManager = new ResourceManager();
+app.initializableProperties = new Map([
+    ["#text", ["textContent"]],
+    ["INPUT", ["value", "title"]]
+]);
 
 app.loadScreen = function(screen) {
     var currentScreenDiv = document.getElementById("screen");
@@ -116,17 +120,15 @@ app.requestScreenAnimationFrame = function(callback) {
 }
 
 app.initializeElement = function(element) {
-    if(element.nodeType == Node.TEXT_NODE && element.textContent.startsWith("@res:")) {
-        var resourceId = element.textContent.substring(5);
-        element.textContent = this.resourceManager.strings.get(resourceId);
-    }
-    else if(element.nodeName == "INPUT" && element.value.startsWith("@res:")) {
-        var resourceId = element.value.substring(5);
-        element.value = this.resourceManager.strings.get(resourceId);
-    }
-    if(element.nodeName == "INPUT" && element.title.startsWith("@res:")) {
-        var resourceId = element.title.substring(5);
-        element.title = this.resourceManager.strings.get(resourceId);
+    var elementInitializableProperties = this.initializableProperties.get(element.nodeName);
+    if(elementInitializableProperties != null)
+    {
+        elementInitializableProperties.forEach(property => {
+            if(element[property].startsWith("@res:"))
+            {
+                element[property] = this.resourceManager.strings.get(element[property].substring(5));
+            }
+        });
     }
     element.childNodes.forEach(child => this.initializeElement(child));
 }
