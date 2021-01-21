@@ -10,6 +10,7 @@
     ["edit", "Edit"],
     ["undo", "Undo"],
     ["finish", "Finish"],
+    ["addturn", "Add turn"],
     ["player", "Player {0}"],
     ["validPlayerNameCharacters", "Alphanumeric characters or space."],
     ["insertName", "Insert a name for player {0}."],

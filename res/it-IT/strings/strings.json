@@ -10,6 +10,7 @@
     ["edit", "Modifica"],
     ["undo", "Annulla"],
     ["finish", "Fine"],
+    ["addturn", "Aggiungi turno"],
     ["player", "Giocatore {0}"],
     ["validPlayerNameCharacters", "Caratteri alfanumerici o spazi."],
     ["insertName", "Inserisci un nome per il giocatore {0}."],
