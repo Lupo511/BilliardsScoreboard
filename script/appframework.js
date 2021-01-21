@@ -141,11 +141,26 @@ app.onResize = function(event) {
     }
 }
 
+app.onMouseDown = function(event) {
+    if(!document.body.classList.contains("using_mouse"))
+        document.body.classList.add("using_mouse");
+}
+
+app.onKeyDown = function(event) {
+    if(event.key == "Tab") {
+        if(document.body.classList.contains("using_mouse"))
+            document.body.classList.remove("using_mouse");
+    }
+}
+
 window.addEventListener("load", function() {
     app.resourceManager.loadResources(navigator.language, () => { if(app.onstart != null) app.onstart(); })
 });
 
 window.addEventListener("resize", (e) => app.onResize(e));
+
+window.addEventListener("mousedown", app.onMouseDown);
+window.addEventListener("keydown", app.onKeyDown);
 
 function AppScreen() {
     this.contentId = null;

@@ -99,8 +99,14 @@ input[type=text] {
     height: 1.2em;
     background-color: #ffffff;
     color: #000000;
-    outline: none;
     font: inherit;
+}
+
+input[type=text]:focus {
+    outline-style: solid;
+    outline-color: #002080;
+    outline-width: 1px;
+    outline-offset: -2px;
 }
 
 input[type=text]::selection {
@@ -113,9 +119,15 @@ button, input[type=submit] {
     margin: 0 10px 10px 0;
     background-color: #001040;
     color: #ffffff;
-    outline: none;
     font: inherit;
     padding: 10px;
+}
+
+button:focus, input[type=submit]:focus {
+    outline-style: solid;
+    outline-color: #ffffff;
+    outline-width: 1px;
+    outline-offset: -2px;
 }
 
 button.image {
@@ -325,4 +337,8 @@ div.win_history div.players {
 
 div.win_history div.turn {
     font-size: 1em;
+}
+
+body.using_mouse :focus {
+    outline: none;
 }
