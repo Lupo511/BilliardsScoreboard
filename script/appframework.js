@@ -88,7 +88,8 @@ var app = {};
 app.onstart = null;
 app.resourceManager = new ResourceManager();
 app.initializableProperties = new Map([
-    ["#text", ["textContent"]],
+    ["#text", ["textContent"]],,
+    ["IMG", ["alt"]]
     ["INPUT", ["value", "title"]]
 ]);
 
