@@ -94,6 +94,7 @@ input[type=text] {
     height: 1.2em;
     background-color: #ffffff;
     color: #000000;
+    outline: none;
     font: inherit;
 }
 
@@ -102,6 +103,7 @@ button, input[type=submit] {
     margin: 0 10px 10px 0;
     background-color: #001040;
     color: #ffffff;
+    outline: none;
     font: inherit;
     padding: 10px;
 }
