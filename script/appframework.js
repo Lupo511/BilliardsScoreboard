@@ -47,14 +47,14 @@ ResourceManager.prototype.loadResources = function(locale, onLoaded) {
     screenResourcesDiv.remove();
 
     var loadPromises = [];
-    loadPromises.push(new RequestPromise("res/strings/strings.json", (request) => {
+    loadPromises.push(new RequestPromise("resources/strings/strings.json", (request) => {
         this.strings = new Map(JSON.parse(request.responseText));
     }));
 
     var layeredStrings = null;
     if(locale != null)
     {
-        loadPromises.push(new RequestPromise("res/" + locale + "/strings/strings.json", (request) => {
+        loadPromises.push(new RequestPromise("resources/" + locale + "/strings/strings.json", (request) => {
             layeredStrings = JSON.parse(request.responseText);
         }));
     }

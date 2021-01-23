@@ -10,8 +10,8 @@ var appFiles = [
     "fonts/Roboto-Light.ttf",
     "script/appframework.js",
     "script/scoreboard.js",
-    "res/strings/strings.json",
-    "res/it-IT/strings/strings.json",
+    "resources/strings/strings.json",
+    "resources/it-IT/strings/strings.json",
     "images/Send.svg"
 ];
 
