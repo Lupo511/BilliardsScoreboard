@@ -8,8 +8,8 @@ var appFiles = [
     "style/style.css",
     "fonts/Roboto-Thin.ttf",
     "fonts/Roboto-Light.ttf",
-    "script/appframework.js",
-    "script/scoreboard.js",
+    "scripts/appframework.js",
+    "scripts/scoreboard.js",
     "resources/strings/strings.json",
     "resources/it-IT/strings/strings.json",
     "images/Send.svg"
