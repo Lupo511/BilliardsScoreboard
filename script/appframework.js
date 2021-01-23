@@ -154,6 +154,10 @@ app.onKeyDown = function(event) {
 }
 
 window.addEventListener("load", function() {
+    if("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./serviceworker.js", {scope: "./"}).catch(err => console.log(err));
+    }
+
     app.resourceManager.loadResources(navigator.language, () => { if(app.onstart != null) app.onstart(); })
 });
 
