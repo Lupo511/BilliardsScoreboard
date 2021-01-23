@@ -1,6 +1,7 @@
 var appScope = self.location.origin + "/BilliardsScoreboard/";
 
 var appFiles = [
+    "",
     "index.html",
     "favicon.ico",
     "style/fonts.css",
@@ -21,7 +22,7 @@ self.addEventListener("install", (event) => {
         await caches.delete("new_version");
         var newCache = await caches.open("new_version");
         var additionPromises = [];
-        for(var file of appFiles) {
+        for(var file of appUrls) {
             additionPromises.push(newCache.add(new Request(file, {cache: "reload"})));
         }
         await Promise.all(additionPromises);
