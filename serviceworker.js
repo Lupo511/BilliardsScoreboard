@@ -12,7 +12,7 @@ var appFiles = [
     "scripts/scoreboard.js",
     "resources/strings/strings.json",
     "resources/it-IT/strings/strings.json",
-    "images/Send.svg"
+    "images/send.svg"
 ];
 
 var appUrls = appFiles.map(file => appScope + file);
