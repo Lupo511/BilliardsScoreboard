@@ -173,7 +173,7 @@ window.addEventListener("load", function() {
             else {
                 var mappedLocale = app.localeAliases.get(navigator.languages[i]);
                 if(mappedLocale != undefined) {
-                    detectedLocaleLocale = mappedLocale;
+                    detectedLocale = mappedLocale;
                     break;
                 }
             }
@@ -187,7 +187,7 @@ window.addEventListener("load", function() {
             else {
                 var mappedLocale = app.localeAliases.get(navigator.language);
                 if(mappedLocale != undefined) {
-                    detectedLocaleLocale = mappedLocale;
+                    detectedLocale = mappedLocale;
                 }
             }
         }
