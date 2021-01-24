@@ -317,6 +317,9 @@ WinScreen.prototype.finishClicked = function() {
     app.loadScreen(new MainScreen());
 }
 
+app.supportedLocales = ["it-IT"];
+app.localeAliases.set("it", "it-IT");
+
 app.onstart = function() {
     app.loadScreen(new MainScreen());
 }

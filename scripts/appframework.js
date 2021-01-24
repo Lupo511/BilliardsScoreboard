@@ -86,6 +86,8 @@ ResourceManager.prototype.getFormattedString = function(id) {
 
 function App() {
     this.onstart = null;
+    this.supportedLocales = [];
+    this.localeAliases = new Map();
     this.resourceManager = new ResourceManager();
     this.initializableProperties = new Map([
         ["#text", ["textContent"]],
@@ -161,7 +163,37 @@ window.addEventListener("load", function() {
         navigator.serviceWorker.register("./serviceworker.js", {scope: "./"}).catch(err => console.log(err));
     }
 
-    app.resourceManager.loadResources(navigator.language, () => { if(app.onstart != null) app.onstart(); })
+    var detectedLocale = null;
+    if("languages" in navigator) {
+        for(var i = 0; i < navigator.languages.length; i++) {
+            if(app.supportedLocales.indexOf(navigator.languages[i]) != -1) {
+                detectedLocale = navigator.languages[i];
+                break;
+            }
+            else {
+                var mappedLocale = localeAliases.get(navigator.languages[i]);
+                if(mappedLocale != undefined) {
+                    detectedLocaleLocale = mappedLocale;
+                    break;
+                }
+            }
+        }
+    }
+    if(detectedLocale == null) {
+        if("language" in navigator) {
+            if(app.supportedLocales.indexOf(navigator.language) != -1) {
+                detectedLocale = navigator.language;
+            }
+            else {
+                var mappedLocale = localeAliases.get(navigator.language);
+                if(mappedLocale != undefined) {
+                    detectedLocaleLocale = mappedLocale;
+                }
+            }
+        }
+    }
+
+    app.resourceManager.loadResources(detectedLocale, () => { if(app.onstart != null) app.onstart(); })
 });
 
 window.addEventListener("resize", (e) => app.onResize(e));
