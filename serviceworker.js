@@ -1,3 +1,5 @@
+var appVersion = 1;
+
 var appScope = self.location.origin + "/BilliardsScoreboard/";
 
 var appFiles = [
