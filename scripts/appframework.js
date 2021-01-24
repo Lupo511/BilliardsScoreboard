@@ -84,16 +84,17 @@ ResourceManager.prototype.getFormattedString = function(id) {
     });
 }
 
-var app = {};
-app.onstart = null;
-app.resourceManager = new ResourceManager();
-app.initializableProperties = new Map([
-    ["#text", ["textContent"]],
-    ["IMG", ["alt"]],
-    ["INPUT", ["value", "title"]]
-]);
+function App() {
+    this.onstart = null;
+    this.resourceManager = new ResourceManager();
+    this.initializableProperties = new Map([
+        ["#text", ["textContent"]],
+        ["IMG", ["alt"]],
+        ["INPUT", ["value", "title"]]
+    ]);
+}
 
-app.loadScreen = function(screen) {
+App.prototype.loadScreen = function(screen) {
     var currentScreenDiv = document.getElementById("screen");
     if(currentScreenDiv != null) {
         currentScreenDiv.remove();
@@ -112,7 +113,7 @@ app.loadScreen = function(screen) {
     this.currentScreen.onStart();
 }
 
-app.requestScreenAnimationFrame = function(callback) {
+App.prototype.requestScreenAnimationFrame = function(callback) {
     var callingScreen = this.currentScreen;
     window.requestAnimationFrame((t) => {
         if(callingScreen == this.currentScreen)
@@ -120,7 +121,7 @@ app.requestScreenAnimationFrame = function(callback) {
     });
 }
 
-app.initializeElement = function(element) {
+App.prototype.initializeElement = function(element) {
     var elementInitializableProperties = this.initializableProperties.get(element.nodeName);
     if(elementInitializableProperties != null)
     {
@@ -134,24 +135,26 @@ app.initializeElement = function(element) {
     element.childNodes.forEach(child => this.initializeElement(child));
 }
 
-app.onResize = function(event) {
+App.prototype.onResize = function(event) {
     if(this.currentScreen != null)
     {
         this.currentScreen.onResize();
     }
 }
 
-app.onMouseDown = function(event) {
+App.prototype.onMouseDown = function(event) {
     if(!document.body.classList.contains("using_mouse"))
         document.body.classList.add("using_mouse");
 }
 
-app.onKeyDown = function(event) {
+App.prototype.onKeyDown = function(event) {
     if(event.key == "Tab") {
         if(document.body.classList.contains("using_mouse"))
             document.body.classList.remove("using_mouse");
     }
 }
+
+var app = new App();
 
 window.addEventListener("load", function() {
     if("serviceWorker" in navigator) {
