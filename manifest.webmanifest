@@ -1,5 +1,6 @@
 {
     "name": "Billiards Scoreboard",
+    "short_name": "Billiards Scoreboard",
     "description": "A simple billiards scoreboard.",
     "icons": [
         {
