@@ -192,8 +192,13 @@ window.addEventListener("load", function() {
             }
         }
     }
+    
+    app.resourceManager.loadResources(detectedLocale, () => {
+        document.getElementById("loadingDiv").remove();
 
-    app.resourceManager.loadResources(detectedLocale, () => { if(app.onstart != null) app.onstart(); })
+        if(app.onstart != null)
+            app.onstart();
+    })
 });
 
 window.addEventListener("resize", (e) => app.onResize(e));
