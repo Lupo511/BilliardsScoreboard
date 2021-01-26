@@ -192,6 +192,11 @@ window.addEventListener("load", function() {
             }
         }
     }
+
+    if(detectedLocale != null)
+        document.documentElement.lang = detectedLocale;
+    else
+        document.documentElement.lang = "en-US";
     
     app.resourceManager.loadResources(detectedLocale, () => {
         document.getElementById("loadingDiv").remove();
