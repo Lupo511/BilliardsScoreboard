@@ -158,7 +158,7 @@ App.prototype.onKeyDown = function(event) {
     }
 
     if(this.currentScreen != null) {
-        this.currentScreen.onKeyDown();
+        this.currentScreen.onKeyDown(event);
     }
 }
 
@@ -229,6 +229,6 @@ AppScreen.prototype.onResize = function() {
 
 }
 
-AppScreen.prototype.onKeyDown = function() {
+AppScreen.prototype.onKeyDown = function(event) {
 
 }
