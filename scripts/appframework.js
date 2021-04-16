@@ -94,6 +94,7 @@ function App() {
         ["IMG", ["alt"]],
         ["INPUT", ["value", "title"]]
     ]);
+    this.usingMouseControls = false;
 }
 
 App.prototype.loadScreen = function(screen) {
@@ -138,8 +139,7 @@ App.prototype.initializeElement = function(element) {
 }
 
 App.prototype.onResize = function(event) {
-    if(this.currentScreen != null)
-    {
+    if(this.currentScreen != null) {
         this.currentScreen.onResize();
     }
 }
@@ -147,12 +147,18 @@ App.prototype.onResize = function(event) {
 App.prototype.onMouseDown = function(event) {
     if(!document.body.classList.contains("using_mouse"))
         document.body.classList.add("using_mouse");
+    this.usingMouseControls = true;
 }
 
 App.prototype.onKeyDown = function(event) {
     if(event.key == "Tab") {
         if(document.body.classList.contains("using_mouse"))
             document.body.classList.remove("using_mouse");
+        this.usingMouseControls = false;
+    }
+
+    if(this.currentScreen != null) {
+        this.currentScreen.onKeyDown();
     }
 }
 
@@ -208,8 +214,8 @@ window.addEventListener("load", function() {
 
 window.addEventListener("resize", (e) => app.onResize(e));
 
-window.addEventListener("mousedown", app.onMouseDown);
-window.addEventListener("keydown", app.onKeyDown);
+window.addEventListener("mousedown", (e) => app.onMouseDown(e));
+window.addEventListener("keydown", (e) => app.onKeyDown(e));
 
 function AppScreen() {
     this.contentId = null;
@@ -220,5 +226,9 @@ AppScreen.prototype.onStart = function() {
 }
 
 AppScreen.prototype.onResize = function() {
+
+}
+
+AppScreen.prototype.onKeyDown = function() {
 
 }
