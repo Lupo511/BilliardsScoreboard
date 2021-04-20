@@ -2,9 +2,9 @@ function Player(name) {
     this.name = name;
 }
 
-function Turn(player, score) {
+function Turn(player, playerScores) {
     this.player = player;
-    this.score = score;
+    this.playerScores = playerScores;
 }
 
 function Match(players, targetScore = 60) {
@@ -17,8 +17,9 @@ Match.prototype.getScoreForPlayer = function(player) {
     var score = 0;
     for(var i = 0; i < this.turns.length; i++)
     {
-        if(this.turns[i].player == player)
-            score += this.turns[i].score;
+        var turnScore = this.turns[i].playerScores.get(player);
+        if(turnScore != undefined)
+            score += turnScore;
     }
     return score;
 }
@@ -57,19 +58,25 @@ function TurnHistoryDiv(match)
 }
 
 TurnHistoryDiv.prototype.turnAdded = function(turn, dontResize = false) {
-    var playerIndex = this.match.players.findIndex(player => player == turn.player);
     var turnElement = document.createElement("div");
     turnElement.classList.add("turn");
-    for(var i = 0; i < 2; i++)
-    {
+    for(var i = 0; i < 2; i++) {
+        var player = this.match.players[i];
+
         var scoreElement = document.createElement("span");
         scoreElement.classList.add("turn_score");
-        if(playerIndex == i)
-            scoreElement.textContent = (turn.score > 0 ? "+" : "") + turn.score;
-        if(turn.score > 0)
-            scoreElement.classList.add("positive");
-        else if(turn.score < 0)
-            scoreElement.classList.add("negative");
+        var playerTurnScore = turn.playerScores.get(player);
+        if(playerTurnScore != undefined) {
+            scoreElement.textContent = (playerTurnScore > 0 ? "+" : "") + playerTurnScore;
+
+            if(turn.player != player)
+                scoreElement.classList.add("foul");
+            else if(playerTurnScore > 0)
+                scoreElement.classList.add("positive");
+            else if(playerTurnScore < 0)
+                scoreElement.classList.add("negative");
+        }
+
         turnElement.appendChild(scoreElement);
     }
     this.turnsDiv.prepend(turnElement);
@@ -277,7 +284,7 @@ MatchScreen.prototype.setNewScoreSign = function(sign) {
 }
 
 MatchScreen.prototype.addNewScore = function() {
-    var turn = new Turn(this.match.players[this.activePlayer], this.newScore * this.newScoreSign);
+    var turn = new Turn(this.match.players[this.activePlayer], new Map([[this.match.players[this.activePlayer], this.newScore * this.newScoreSign]]));
     this.match.turns.push(turn);
     this.updateScoreLabel(this.activePlayer);
     this.turnHistoryDiv.turnAdded(turn);
