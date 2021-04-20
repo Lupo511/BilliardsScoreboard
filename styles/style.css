@@ -264,6 +264,10 @@ span.turn_score.negative {
     color: #c00000;
 }
 
+span.turn_score.foul {
+    color: #c0c000;
+}
+
 div.buttons {
     display: none;
 }
