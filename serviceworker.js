@@ -1,4 +1,4 @@
-var appVersion = "1.1.0";
+var appVersion = "1.2.0";
 
 var appScope = self.location.origin + "/BilliardsScoreboard/";
 
