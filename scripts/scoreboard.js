@@ -241,6 +241,10 @@ MatchScreen.prototype.onKeyDown = function(event) {
             case "-":
                 this.setNewScoreMode(-1);
                 break;
+            case "F":
+            case "f":
+                this.setNewScoreMode(0);
+                break;
             case "Enter":
                 if(app.usingMouseControls) {
                     this.addNewScore();
