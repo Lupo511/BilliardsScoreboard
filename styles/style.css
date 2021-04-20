@@ -79,7 +79,7 @@ div.container {
 }
 
 span.error {
-    color: #c00000;
+    color: #f30000;
 }
 
 div.input_container {
@@ -257,15 +257,15 @@ span.turn_score {
 }
 
 span.turn_score.positive {
-    color: #00c000;
+    color: #00f300;
 }
 
 span.turn_score.negative {
-    color: #c00000;
+    color: #f30000;
 }
 
 span.turn_score.foul {
-    color: #c0c000;
+    color: #f3f300;
 }
 
 div.buttons {
