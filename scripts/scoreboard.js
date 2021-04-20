@@ -260,7 +260,7 @@ MatchScreen.prototype.setActivePlayer = function(playerIndex) {
         this.scoreHolders[this.activePlayer].classList.add("active");
         this.newScoreMode = 1;
         this.newScore = 0;
-        this.signButton.textContent = "-";
+        this.signButton.textContent = "+";
         this.updateInputText();
         this.turnHistoryDiv.historyScrollDiv.style.display = "none";
         this.buttonsDiv.style.display = "block";
@@ -282,13 +282,13 @@ MatchScreen.prototype.setNewScoreMode = function(mode) {
     this.updateInputText();
     switch(this.newScoreMode) {
         case -1:
-            this.signButton.textContent = "F";
+            this.signButton.textContent = "-";
             break;
         case 0:
-            this.signButton.textContent = "+";
+            this.signButton.textContent = "F";
             break;
         case 1:
-            this.signButton.textContent = "-";
+            this.signButton.textContent = "+";
             break;
     }
 }
