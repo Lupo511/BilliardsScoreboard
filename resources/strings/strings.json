@@ -12,7 +12,10 @@
     ["addturn", "Add turn"],
     ["player", "Player {0}"],
     ["validPlayerNameCharacters", "Alphanumeric characters or space."],
+    ["targetScore", "Target score"],
     ["insertName", "Insert a name for player {0}."],
     ["invalidName", "Invalid name for player {0}: only alphanumeric and whitespace characters are accepted."],
+    ["invalidTargetScoreNumber", "Invalid target score: please insert a number."],
+    ["invalidTargetScoreGreaterThanZero", "Target score must be greater than 0."],
     ["playerWon", "{0} won!"]
 ]
