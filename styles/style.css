@@ -114,6 +114,15 @@ input[type=text]::selection, input[type=number]::selection {
     color: #ffffff;
 }
 
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 button, input[type=submit] {
     border: 0;
     margin: 0 10px 10px 0;
