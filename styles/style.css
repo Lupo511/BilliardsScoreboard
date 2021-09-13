@@ -92,7 +92,7 @@ div.input_container span.input {
     margin-right: 50px;
 }
 
-input[type=text] {
+input[type=text], input[type=number] {
     margin: 5px 0 5px 5px;
     border: 0;
     padding: 5px;
@@ -102,16 +102,25 @@ input[type=text] {
     font: inherit;
 }
 
-input[type=text]:focus {
+input[type=text]:focus, input[type=number]:focus {
     outline-style: solid;
     outline-color: #002080;
     outline-width: 1px;
     outline-offset: -2px;
 }
 
-input[type=text]::selection {
+input[type=text]::selection, input[type=number]::selection {
     background-color: #002080;
     color: #ffffff;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 button, input[type=submit] {

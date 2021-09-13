@@ -119,6 +119,9 @@ NewMatchScreen.prototype.onStart = function() {
         document.getElementById("title").textContent = app.resourceManager.strings.get("editmatch");
         document.getElementById("player1").value = this.match.players[0].name;
         document.getElementById("player2").value = this.match.players[1].name;
+        var targetScoreInput = document.getElementById("targetScore");
+        targetScoreInput.value = this.match.targetScore;
+        targetScoreInput.setAttribute("readonly", "");
         document.getElementById("startButton").value = app.resourceManager.strings.get("save");
         document.getElementById("backButton").textContent = app.resourceManager.strings.get("cancel");
     }
@@ -134,6 +137,7 @@ NewMatchScreen.prototype.checkName = function(name) {
 NewMatchScreen.prototype.formSubmit = function() {
     var formData = new FormData(document.getElementById("playersForm"));
     var playerNames = [formData.get("player1").trim(), formData.get("player2").trim()];
+    var targetScore = parseInt(formData.get("targetScore"));
     var errorLabel = document.getElementById("errorLabel");
     for(var i = 0; i < playerNames.length; i++)
     {
@@ -148,9 +152,19 @@ NewMatchScreen.prototype.formSubmit = function() {
             return false;
         }
     }
+    if(isNaN(targetScore))
+    {
+        errorLabel.textContent = app.resourceManager.strings.get("invalidTargetScoreNumber");
+        return false;
+    }
+    if(targetScore < 1)
+    {
+        errorLabel.textContent = app.resourceManager.strings.get("invalidTargetScoreGreaterThanZero");
+        return false;
+    }
     if(this.match == null)
     {
-        this.match = new Match([new Player(playerNames[0]), new Player(playerNames[1])]);
+        this.match = new Match([new Player(playerNames[0]), new Player(playerNames[1])], targetScore);
     }
     else
     {

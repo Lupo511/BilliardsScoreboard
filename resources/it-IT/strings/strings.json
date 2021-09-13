@@ -12,7 +12,10 @@
     ["addturn", "Aggiungi turno"],
     ["player", "Giocatore {0}"],
     ["validPlayerNameCharacters", "Caratteri alfanumerici o spazi."],
+    ["targetScore", "Punteggio obiettivo"],
     ["insertName", "Inserisci un nome per il giocatore {0}."],
     ["invalidName", "Nome per il giocatore {0} non valido: sono accettati solo caratteri alfanumerici o spazi."],
+    ["invalidTargetScoreNumber", "Punteggio obiettivo non valido: inserisci un unmero."],
+    ["invalidTargetScoreGreaterThanZero", "Il punteggio obiettivo deve essere più grande di 0."],
     ["playerWon", "{0} ha vinto!"]
 ]
