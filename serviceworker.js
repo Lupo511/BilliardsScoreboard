@@ -1,6 +1,6 @@
-var appVersion = "1.3.0";
+var appVersion = "1.3.1";
 
-var appScope = self.location.origin + "/BilliardsScoreboard/";
+var appScope = self.location.origin + self.location.pathname.substring(0, self.location.pathname.lastIndexOf("/") + 1);
 
 var appFiles = [
     "",
