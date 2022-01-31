@@ -149,11 +149,11 @@ button.image img {
     height: 100%;
 }
 
-button.send {
+button.positive {
     background-color: #00c000;
 }
 
-button.cancel {
+button.negative {
     background-color: #c00000;
 }
 
