@@ -62,10 +62,10 @@
                         <button onclick="app.currentScreen.exitClicked();">@res:exit</button><button onclick="app.currentScreen.editClicked();">@res:edit</button>
                     </div>
                     <div class="scores">
-                        <button id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(0);">
+                        <button id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked([0, 0]);">
                             <span id="player1Name" class="player_name"></span>
                             <span id="player1Score" class="score"></span>
-                        </button><button id="player2ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(1);">
+                        </button><button id="player2ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked([1, 0]);">
                             <span id="player2Name" class="player_name"></span>
                             <span id="player2Score" class="score"></span>
                         </button>
