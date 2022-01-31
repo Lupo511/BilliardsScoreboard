@@ -153,6 +153,10 @@ button.positive {
     background-color: #00c000;
 }
 
+button.medium {
+    background-color: #f3f300;
+}
+
 button.negative {
     background-color: #c00000;
 }
