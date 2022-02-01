@@ -218,7 +218,7 @@ NewMatchScreen.prototype.checkName = function(name) {
 
 NewMatchScreen.prototype.formSubmit = function() {
     var formData = new FormData(document.getElementById("playersForm"));
-    var playerNames = [formData.get("player1").trim(), formData.get("player2").trim()];
+    var playerNames = formData.getAll("playerName").map(name => name.trim());
     var targetScore = parseInt(formData.get("targetScore"));
     var errorLabel = document.getElementById("errorLabel");
     for(var i = 0; i < playerNames.length; i++)
