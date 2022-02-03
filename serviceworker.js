@@ -50,7 +50,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
     event.respondWith((async () => {
         if(appUrls.indexOf(event.request.url) != -1) {
-            return await (await caches.open("billiardsscoreboard.current_version")).match(event.request);
+            return await (await caches.open("billiardsscoreboard.current_version")).match(event.request.url);
         }
         else {
             return await fetch(event.request);
