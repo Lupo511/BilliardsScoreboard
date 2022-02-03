@@ -88,6 +88,7 @@ function App() {
     this.onstart = null;
     this.supportedLocales = [];
     this.localeAliases = new Map();
+    this.currentLocale = "en-US";
     this.resourceManager = new ResourceManager();
     this.initializableProperties = new Map([
         ["#text", ["textContent"]],
@@ -200,9 +201,9 @@ window.addEventListener("load", function() {
     }
 
     if(detectedLocale != null)
-        document.documentElement.lang = detectedLocale;
-    else
-        document.documentElement.lang = "en-US";
+        app.currentLocale = detectedLocale;
+    
+    document.documentElement.lang = app.currentLocale;
     
     app.resourceManager.loadResources(detectedLocale, () => {
         document.getElementById("loadingDiv").remove();

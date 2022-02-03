@@ -1,4 +1,4 @@
-var appVersion = "1.3.1";
+var appVersion = "1.4.0";
 
 var appScope = self.location.origin + self.location.pathname.substring(0, self.location.pathname.lastIndexOf("/") + 1);
 
@@ -14,7 +14,8 @@ var appFiles = [
     "scripts/scoreboard.js",
     "resources/strings/strings.json",
     "resources/it-IT/strings/strings.json",
-    "images/send.svg"
+    "images/send.svg",
+    "videos/lucky_animation.webm"
 ];
 
 var appUrls = appFiles.map(file => appScope + file);

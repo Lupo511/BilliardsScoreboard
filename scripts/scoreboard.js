@@ -1,33 +1,109 @@
-function Player(name) {
+function MatchParty(name, players = []) {
     this.name = name;
+    this.players = players;
 }
 
-function Turn(player, playerScores) {
+function Player(name) {
+    this.__proto__.__proto__.constructor.call(this, name, [this]);
+}
+
+Player.prototype.__proto__ = MatchParty.prototype;
+
+function Team(name, players) {
+    this.__proto__.__proto__.constructor.call(this, name, players);
+}
+
+Team.prototype.__proto__ = MatchParty.prototype;
+
+function ScoreMode() { }
+
+Object.defineProperty(ScoreMode, "Positive", {
+    value: new ScoreMode(),
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+Object.defineProperty(ScoreMode, "Negative", {
+    value: new ScoreMode(),
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+Object.defineProperty(ScoreMode, "Foul", {
+    value: new ScoreMode(),
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+function Score(mode, amount) {
+    this.mode = mode;
+    this.amount = amount;
+}
+
+function Turn(player, partyScores, playerScores) {
     this.player = player;
+    this.partyScores = partyScores;
     this.playerScores = playerScores;
 }
 
-function Match(players, targetScore = 60) {
-    this.players = players;
+function Match(parties, targetScore = 60) {
+    this.parties = parties;
     this.targetScore = targetScore;
     this.turns = [];
 }
 
-Match.prototype.getScoreForPlayer = function(player) {
+Match.prototype.getScoreForParty = function(party) {
     var score = 0;
-    for(var i = 0; i < this.turns.length; i++)
-    {
-        var turnScore = this.turns[i].playerScores.get(player);
-        if(turnScore != undefined)
-            score += turnScore;
-    }
+    this.turns.forEach(turn => {
+        var partyTurnScores = turn.partyScores.get(party);
+        if(partyTurnScores != undefined) {
+            partyTurnScores.foreach(partyTurnScore => {
+                if(partyTurnScore.mode == ScoreMode.Positive)
+                    score += partyTurnScore.amount;
+                else if(partyTurnScore.mode == ScoreMode.Negative)
+                    score -= partyTurnScore.amount;
+            });
+        }
+
+        turn.playerScores.forEach((turnScores, player) => {
+            if(party.players.includes(player)) {
+                turnScores.forEach(turnScore => {
+                    if(turnScore.mode == ScoreMode.Positive)
+                        score += turnScore.amount;
+                    else if(turnScore.mode == ScoreMode.Negative)
+                        score -= turnScore.amount;
+                });
+            }
+            else {
+                turnScores.filter(turnScore => turnScore.mode == ScoreMode.Foul).forEach(turnScore => score += turnScore.amount);
+            }
+        });
+    });
     return score;
 }
 
-Match.prototype.getWinningPlayer = function() {
-    var player = this.players.find(player => this.getScoreForPlayer(player) >= this.targetScore);
-    if(player != undefined)
-        return player;
+Match.prototype.getScoreForPlayer = function(player) {
+    var score = 0;
+    this.turns.forEach(turn => {
+        var turnScores = turn.playerScores.get(player);
+        if(turnScores != undefined)
+            turnScores.forEach(turnScore => {
+                if(turnScore.mode == ScoreMode.Positive)
+                    score += turnScore.amount;
+                else if(turnScore.mode == ScoreMode.Negative)
+                    score -= turnScore.amount;
+            });
+    });
+    return score;
+}
+
+Match.prototype.getWinningParty = function() {
+    var party = this.parties.find(party => this.getScoreForParty(party) >= this.targetScore);
+    if(party != undefined)
+        return party;
     return null;
 }
 
@@ -47,7 +123,7 @@ function TurnHistoryDiv(match)
     {
         var playerSpan = document.createElement("span");
         playerSpan.classList.add("player");
-        playerSpan.textContent = this.match.players[i].name;
+        playerSpan.textContent = this.match.parties[i].name;
         playersDiv.appendChild(playerSpan);
     }
     this.historyDiv.appendChild(playersDiv);
@@ -61,20 +137,26 @@ TurnHistoryDiv.prototype.turnAdded = function(turn, dontResize = false) {
     var turnElement = document.createElement("div");
     turnElement.classList.add("turn");
     for(var i = 0; i < 2; i++) {
-        var player = this.match.players[i];
+        var player = this.match.parties[i];
 
         var scoreElement = document.createElement("span");
         scoreElement.classList.add("turn_score");
-        var playerTurnScore = turn.playerScores.get(player);
-        if(playerTurnScore != undefined) {
-            scoreElement.textContent = (playerTurnScore > 0 ? "+" : "") + playerTurnScore;
+        var playerTurnScores = turn.playerScores.get(player);
+        if(playerTurnScores != undefined && playerTurnScores.length >= 1) {
+            var scoreString = "";
+            if(playerTurnScores[0].mode == ScoreMode.Positive)
+                scoreString = "+";
+            else if(playerTurnScores[0].mode == ScoreMode.Negative)
+                scoreString = "-";
+            scoreString += playerTurnScores[0].amount;
+            scoreElement.textContent = scoreString;
 
-            if(turn.player != player)
-                scoreElement.classList.add("foul");
-            else if(playerTurnScore > 0)
+            if(playerTurnScores[0].mode == ScoreMode.Positive)
                 scoreElement.classList.add("positive");
-            else if(playerTurnScore < 0)
+            else if(playerTurnScores[0].mode == ScoreMode.Negative)
                 scoreElement.classList.add("negative");
+            else
+                scoreElement.classList.add("foul");
         }
 
         turnElement.appendChild(scoreElement);
@@ -117,8 +199,8 @@ NewMatchScreen.prototype.onStart = function() {
     if(this.match != null)
     {
         document.getElementById("title").textContent = app.resourceManager.strings.get("editmatch");
-        document.getElementById("player1").value = this.match.players[0].name;
-        document.getElementById("player2").value = this.match.players[1].name;
+        document.getElementById("player1").value = this.match.parties[0].name;
+        document.getElementById("player2").value = this.match.parties[1].name;
         var targetScoreInput = document.getElementById("targetScore");
         targetScoreInput.value = this.match.targetScore;
         targetScoreInput.setAttribute("readonly", "");
@@ -136,7 +218,7 @@ NewMatchScreen.prototype.checkName = function(name) {
 
 NewMatchScreen.prototype.formSubmit = function() {
     var formData = new FormData(document.getElementById("playersForm"));
-    var playerNames = [formData.get("player1").trim(), formData.get("player2").trim()];
+    var playerNames = formData.getAll("playerName").map(name => name.trim());
     var targetScore = parseInt(formData.get("targetScore"));
     var errorLabel = document.getElementById("errorLabel");
     for(var i = 0; i < playerNames.length; i++)
@@ -168,8 +250,8 @@ NewMatchScreen.prototype.formSubmit = function() {
     }
     else
     {
-        this.match.players[0].name = playerNames[0];
-        this.match.players[1].name = playerNames[1];
+        this.match.parties[0].name = playerNames[0];
+        this.match.parties[1].name = playerNames[1];
     }
     app.loadScreen(new MatchScreen(this.match));
     return false;
@@ -188,26 +270,34 @@ function MatchScreen(match) {
     this.contentId = "match";
 
     this.match = match;
-    this.activePlayer = -1;
-    this.newScoreMode = 1;
-    this.newScore = 0;
+    this.activePlayerIndex = null;
+    this.newScore = new Score(ScoreMode.Positive, 0);
+    this.easterEggVideo = null;
 }
 
 MatchScreen.prototype.__proto__ = AppScreen.prototype;
 
 MatchScreen.prototype.onStart = function() {    
-    this.scoreHolders = [document.getElementById("player1ScoreHolder"), document.getElementById("player2ScoreHolder")];
-    this.scoreLabels = [document.getElementById("player1Score"), document.getElementById("player2Score")];
+    this.scoreHolders = [[document.getElementById("player1ScoreHolder")], [document.getElementById("player2ScoreHolder")]];
+    this.scoreLabels = [[document.getElementById("player1Score")], [document.getElementById("player2Score")]];
     this.buttonsDiv = document.getElementById("buttons");
     this.inputText = document.getElementById("inputText");
     this.signButton = document.getElementById("signButton");
     this.turnHistoryDiv = new TurnHistoryDiv(this.match);
 
-    document.getElementById("player1Name").textContent = this.match.players[0].name;
-    document.getElementById("player2Name").textContent = this.match.players[1].name;
-    this.updateScoreLabel(0);
-    this.updateScoreLabel(1);
+    document.getElementById("player1Name").textContent = this.match.parties[0].name;
+    document.getElementById("player2Name").textContent = this.match.parties[1].name;
+    this.updateScoreLabels();
     document.getElementById("bottom").prepend(this.turnHistoryDiv.historyScrollDiv);
+
+    if(app.currentLocale == "it-IT") {
+
+        this.easterEggVideo = document.createElement("video");
+        this.easterEggVideo.classList.add("easter_egg");
+        this.easterEggVideo.src = "videos/lucky_animation.webm";
+        this.easterEggVideo.playsInline = true;
+        document.getElementById("screen").prepend(this.easterEggVideo);
+    }
     
     this.resizeUI();
 }
@@ -217,7 +307,7 @@ MatchScreen.prototype.onResize = function() {
 }
 
 MatchScreen.prototype.onKeyDown = function(event) {
-    if(this.activePlayer != -1) {
+    if(this.activePlayerIndex != null) {
         switch(event.key) {
             case "1":
                 this.addNewScoreDigit(1);
@@ -250,14 +340,14 @@ MatchScreen.prototype.onKeyDown = function(event) {
                 this.addNewScoreDigit(0);
                 break;
             case "+":
-                this.setNewScoreMode(1);
+                this.setNewScoreMode(ScoreMode.Positive);
                 break;
             case "-":
-                this.setNewScoreMode(-1);
+                this.setNewScoreMode(ScoreMode.Negative);
                 break;
             case "F":
             case "f":
-                this.setNewScoreMode(0);
+                this.setNewScoreMode(ScoreMode.Foul);
                 break;
             case "Enter":
                 if(app.usingMouseControls) {
@@ -269,16 +359,15 @@ MatchScreen.prototype.onKeyDown = function(event) {
     }
 }
 
-MatchScreen.prototype.setActivePlayer = function(playerIndex) {
-    if(this.activePlayer != -1)
-        this.scoreHolders[this.activePlayer].classList.remove("active");
-    this.activePlayer = playerIndex;
-    if(this.activePlayer != -1)
+MatchScreen.prototype.setActivePlayer = function(activePlayer) {
+    if(this.activePlayerIndex != null)
+        this.scoreHolders[this.activePlayerIndex[0]][this.activePlayerIndex[1]].classList.remove("active");
+    this.activePlayerIndex = activePlayer;
+    if(this.activePlayerIndex != null)
     {
-        this.scoreHolders[this.activePlayer].classList.add("active");
-        this.newScoreMode = 1;
-        this.newScore = 0;
-        this.signButton.textContent = "+";
+        this.scoreHolders[this.activePlayerIndex[0]][this.activePlayerIndex[1]].classList.add("active");
+        this.newScore = new Score(ScoreMode.Positive, 0);
+        this.setNewScoreMode(ScoreMode.Positive);
         this.updateInputText();
         this.turnHistoryDiv.historyScrollDiv.style.display = "none";
         this.buttonsDiv.style.display = "block";
@@ -291,42 +380,43 @@ MatchScreen.prototype.setActivePlayer = function(playerIndex) {
 }
 
 MatchScreen.prototype.addNewScoreDigit = function(digit) {
-    this.newScore = this.newScore * 10 + digit;
+    this.newScore.amount = this.newScore.amount * 10 + digit;
     this.updateInputText();
 }
 
 MatchScreen.prototype.setNewScoreMode = function(mode) {
-    this.newScoreMode = mode;
+    this.newScore.mode = mode;
     this.updateInputText();
-    switch(this.newScoreMode) {
-        case -1:
-            this.signButton.textContent = "-";
-            break;
-        case 0:
-            this.signButton.textContent = "F";
-            break;
-        case 1:
+    this.signButton.classList.remove("positive", "negative", "medium")
+    switch(this.newScore.mode) {
+        case ScoreMode.Positive:
             this.signButton.textContent = "+";
+            this.signButton.classList.add("positive");
+            break;
+        case ScoreMode.Negative:
+            this.signButton.textContent = "-";
+            this.signButton.classList.add("negative");
+            break;
+        case ScoreMode.Foul:
+            this.signButton.textContent = "F";
+            this.signButton.classList.add("medium");
             break;
     }
 }
 
 MatchScreen.prototype.addNewScore = function() {
-    var scorePlayerIndex;
-    var score = this.newScore;
-    if(this.newScoreMode == 0) {
-        scorePlayerIndex = Math.abs(this.activePlayer - 1);
-    }
-    else {
-        scorePlayerIndex = this.activePlayer;
-        score *= this.newScoreMode;
-    }
-    var turn = new Turn(this.match.players[this.activePlayer], new Map([[this.match.players[scorePlayerIndex], score]]));
+    var turn = new Turn(this.match.parties[this.activePlayerIndex[0]].players[this.activePlayerIndex[1]], new Map(), new Map([[this.match.parties[this.activePlayerIndex[0]].players[this.activePlayerIndex[1]], [this.newScore]]]));
     this.match.turns.push(turn);
-    this.updateScoreLabel(scorePlayerIndex);
+    this.updateScoreLabels();
     this.turnHistoryDiv.turnAdded(turn);
-    this.setActivePlayer(-1);
-    if(this.match.getWinningPlayer() != null)
+    this.setActivePlayer(null);
+
+    if(this.easterEggVideo != null && this.newScore.mode == ScoreMode.Positive && this.newScore.amount >= 14) {
+        this.easterEggVideo.currentTime = 0;
+        this.easterEggVideo.play();
+    }
+
+    if(this.match.getWinningParty() != null)
         app.loadScreen(new WinScreen(this.match));
 }
 
@@ -339,8 +429,8 @@ MatchScreen.prototype.editClicked = function() {
 }
 
 MatchScreen.prototype.playerClicked = function(playerIndex) {
-    if(playerIndex == this.activePlayer)
-        this.setActivePlayer(-1);
+    if(this.activePlayerIndex != null && playerIndex[0] == this.activePlayerIndex[0] && playerIndex[1] == this.activePlayerIndex[1])
+        this.setActivePlayer(null);
     else
         this.setActivePlayer(playerIndex);
 }
@@ -350,10 +440,17 @@ MatchScreen.prototype.numberClicked = function(number) {
 }
 
 MatchScreen.prototype.signClicked = function() {
-    this.newScoreMode++;
-    if(this.newScoreMode > 1)
-        this.newScoreMode = -1;
-    this.setNewScoreMode(this.newScoreMode);
+    switch(this.newScore.mode) {
+        case(ScoreMode.Positive):
+            this.setNewScoreMode(ScoreMode.Negative);
+            break;
+        case(ScoreMode.Negative):
+            this.setNewScoreMode(ScoreMode.Foul);
+            break;
+        case(ScoreMode.Foul):
+            this.setNewScoreMode(ScoreMode.Positive);
+            break;
+    }
 }
 
 MatchScreen.prototype.sendClicked = function() {
@@ -361,11 +458,12 @@ MatchScreen.prototype.sendClicked = function() {
 }
 
 MatchScreen.prototype.updateInputText = function() {
-    this.inputText.textContent = (this.newScoreMode == -1 ? "-" : "") + this.newScore;
+    this.inputText.textContent = (this.newScore.mode == ScoreMode.Negative ? "-" : "") + this.newScore.amount;
 }
 
-MatchScreen.prototype.updateScoreLabel = function(playerIndex) {
-    this.scoreLabels[playerIndex].textContent = this.match.getScoreForPlayer(this.match.players[playerIndex]);
+MatchScreen.prototype.updateScoreLabels = function() {
+    this.scoreLabels[0][0].textContent = this.match.getScoreForParty(this.match.parties[0]);
+    this.scoreLabels[1][0].textContent = this.match.getScoreForParty(this.match.parties[1]);
 }
 
 MatchScreen.prototype.resizeUI = function() {
@@ -399,11 +497,11 @@ function WinScreen(match) {
 WinScreen.prototype.__proto__ = AppScreen.prototype;
 
 WinScreen.prototype.onStart = function() {
-    document.getElementById("winLabel").textContent = app.resourceManager.getFormattedString("playerWon", this.match.getWinningPlayer().name);
-    document.getElementById("player1Name").textContent = this.match.players[0].name;
-    document.getElementById("player2Name").textContent = this.match.players[1].name;
-    document.getElementById("player1Score").textContent = this.match.getScoreForPlayer(this.match.players[0]);
-    document.getElementById("player2Score").textContent = this.match.getScoreForPlayer(this.match.players[1]);
+    document.getElementById("winLabel").textContent = app.resourceManager.getFormattedString("playerWon", this.match.getWinningParty().name);
+    document.getElementById("player1Name").textContent = this.match.parties[0].name;
+    document.getElementById("player2Name").textContent = this.match.parties[1].name;
+    document.getElementById("player1Score").textContent = this.match.getScoreForParty(this.match.parties[0]);
+    document.getElementById("player2Score").textContent = this.match.getScoreForParty(this.match.parties[1]);
     this.turnHistoryDiv = new TurnHistoryDiv(this.match);
     this.turnHistoryDiv.historyScrollDiv.classList.add("win_history_scroll");
     this.turnHistoryDiv.historyDiv.classList.add("win_history");

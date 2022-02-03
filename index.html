@@ -39,10 +39,10 @@
                             <span id="errorLabel" class="error"></span><br>
                             <div class="input_container">
                                 <span class="input">
-                                    <label id="player1label" for="player1"></label><input type="text" id="player1" name="player1" title="@res:validPlayerNameCharacters" pattern="[\w\s]+" required>
+                                    <label id="player1label" for="player1"></label><input type="text" id="player1" name="playerName" title="@res:validPlayerNameCharacters" pattern="[\w\s]+" required>
                                 </span>
                                 <span class="input">
-                                    <label id="player2label" for="player2"></label><input type="text" id="player2" name="player2" title="@res:validPlayerNameCharacters" pattern="[\w\s]+" required>
+                                    <label id="player2label" for="player2"></label><input type="text" id="player2" name="playerName" title="@res:validPlayerNameCharacters" pattern="[\w\s]+" required>
                                 </span>
                                 <br>
                                 <span class="input">
@@ -52,7 +52,7 @@
                             <br>
                             <input id="startButton" class="right" type="submit" value="@res:start">
                         </form>
-                        <button id="backButton" class="cancel left" onclick="app.currentScreen.backClicked();">@res:back</button>
+                        <button id="backButton" class="negative left" onclick="app.currentScreen.backClicked();">@res:back</button>
                     </div>
                 </div>
             </div>
@@ -62,10 +62,10 @@
                         <button onclick="app.currentScreen.exitClicked();">@res:exit</button><button onclick="app.currentScreen.editClicked();">@res:edit</button>
                     </div>
                     <div class="scores">
-                        <button id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(0);">
+                        <button id="player1ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked([0, 0]);">
                             <span id="player1Name" class="player_name"></span>
                             <span id="player1Score" class="score"></span>
-                        </button><button id="player2ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked(1);">
+                        </button><button id="player2ScoreHolder" class="score_holder" onclick="app.currentScreen.playerClicked([1, 0]);">
                             <span id="player2Name" class="player_name"></span>
                             <span id="player2Score" class="score"></span>
                         </button>
@@ -84,7 +84,7 @@
                                     <button onclick="app.currentScreen.numberClicked(7);">7</button><button onclick="app.currentScreen.numberClicked(8);">8</button><button onclick="app.currentScreen.numberClicked(9);">9</button>
                                 </span>
                                 <span class="row">
-                                    <button id="signButton" onclick="app.currentScreen.signClicked();">+</button><button onclick="app.currentScreen.numberClicked(0);">0</button><button class="send image" onclick="app.currentScreen.sendClicked();"><img src="images/send.svg" alt="@res:addturn"></button>
+                                    <button id="signButton" class="positive" onclick="app.currentScreen.signClicked();">+</button><button onclick="app.currentScreen.numberClicked(0);">0</button><button class="positive image" onclick="app.currentScreen.sendClicked();"><img src="images/send.svg" alt="@res:addturn"></button>
                                 </span>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                         <div>
                             <span class="win_score_holder"><span id="player1Name" class="player_name"></span><span id="player1Score" class="score"></span></span><span class="win_score_holder"><span id="player2Name" class="player_name"></span><span id="player2Score" class="score"></span></span>
                         </div>
-                        <button id="undoButton" class="cancel left" onclick="app.currentScreen.undoClicked();">@res:undo</button>
+                        <button id="undoButton" class="negative left" onclick="app.currentScreen.undoClicked();">@res:undo</button>
                         <button id="finishButton" class="right" onclick="app.currentScreen.finishClicked();">@res:finish</button>
                     </div>
                 </div>
