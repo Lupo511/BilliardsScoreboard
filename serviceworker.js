@@ -1,4 +1,4 @@
-var appVersion = "1.4.0";
+var appVersion = "1.4.1";
 
 var appScope = self.location.origin + self.location.pathname.substring(0, self.location.pathname.lastIndexOf("/") + 1);
 
@@ -22,8 +22,8 @@ var appUrls = appFiles.map(file => appScope + file);
 
 self.addEventListener("install", (event) => {
     event.waitUntil((async () => {
-        await caches.delete("billiardscoreboard.new_version");
-        var newCache = await caches.open("billiardscoreboard.new_version");
+        await caches.delete("billiardsscoreboard.new_version");
+        var newCache = await caches.open("billiardsscoreboard.new_version");
         var additionPromises = [];
         for(var file of appUrls) {
             additionPromises.push(newCache.add(new Request(file, {cache: "reload"})));
@@ -34,8 +34,8 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
     event.waitUntil((async () => {
-        await caches.delete("billiardscoreboard.current_version");
-        var versionCaches = await Promise.all([caches.open("billiardscoreboard.current_version"), caches.open("billiardscoreboard.new_version")]);
+        await caches.delete("billiardsscoreboard.current_version");
+        var versionCaches = await Promise.all([caches.open("billiardsscoreboard.current_version"), caches.open("billiardsscoreboard.new_version")]);
         var currentCache = versionCaches[0];
         var newCache = versionCaches[1];
         var cloningPromises = [];
@@ -43,14 +43,14 @@ self.addEventListener("activate", (event) => {
             cloningPromises.push((async () => await currentCache.put(request, await newCache.match(request)))());
         }
         await Promise.all(cloningPromises);
-        await caches.delete("billiardscoreboard.new_version");
+        await caches.delete("billiardsscoreboard.new_version");
     })());
 });
 
 self.addEventListener("fetch", (event) => {
     event.respondWith((async () => {
         if(appUrls.indexOf(event.request.url) != -1) {
-            return await (await caches.open("billiardscoreboard.current_version")).match(event.request);
+            return await (await caches.open("billiardsscoreboard.current_version")).match(event.request.url);
         }
         else {
             return await fetch(event.request);
