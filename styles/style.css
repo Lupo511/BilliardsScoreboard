@@ -226,6 +226,16 @@ div.bottom {
     text-align: center;
 }
 
+video.easter_egg {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100vw;
+    height: 100vw;
+    transform: translate(0, -50%);
+    pointer-events: none;
+}
+
 div.history_scroll {
     height: 100%;
     overflow-x: hidden;

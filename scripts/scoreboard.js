@@ -272,6 +272,7 @@ function MatchScreen(match) {
     this.match = match;
     this.activePlayerIndex = null;
     this.newScore = new Score(ScoreMode.Positive, 0);
+    this.easterEggVideo = null;
 }
 
 MatchScreen.prototype.__proto__ = AppScreen.prototype;
@@ -288,6 +289,15 @@ MatchScreen.prototype.onStart = function() {
     document.getElementById("player2Name").textContent = this.match.parties[1].name;
     this.updateScoreLabels();
     document.getElementById("bottom").prepend(this.turnHistoryDiv.historyScrollDiv);
+
+    if(app.currentLocale == "it-IT") {
+
+        this.easterEggVideo = document.createElement("video");
+        this.easterEggVideo.classList.add("easter_egg");
+        this.easterEggVideo.src = "videos/lucky_animation.webm";
+        this.easterEggVideo.playsInline = true;
+        document.getElementById("screen").prepend(this.easterEggVideo);
+    }
     
     this.resizeUI();
 }
@@ -400,6 +410,12 @@ MatchScreen.prototype.addNewScore = function() {
     this.updateScoreLabels();
     this.turnHistoryDiv.turnAdded(turn);
     this.setActivePlayer(null);
+
+    if(this.easterEggVideo != null && this.newScore.mode == ScoreMode.Positive && this.newScore.amount >= 14) {
+        this.easterEggVideo.currentTime = 0;
+        this.easterEggVideo.play();
+    }
+
     if(this.match.getWinningParty() != null)
         app.loadScreen(new WinScreen(this.match));
 }
